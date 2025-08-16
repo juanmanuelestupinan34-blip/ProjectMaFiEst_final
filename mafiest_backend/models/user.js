@@ -29,7 +29,7 @@ const userSchema = new mongoose.Schema({
   },
   rol: {
     type: String,
-    required: [true, 'El rol del integrante es obligatorio'],
+    required: [true, 'El rol es obligatorio'],
     trim: true
   },
   passwordHash: {
