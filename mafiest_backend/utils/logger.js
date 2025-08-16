@@ -1,16 +1,18 @@
-const info = (dbName, ...params) => {
+const info = (connection, ...params) => {
   if (process.env.NODE_ENV !== 'test') {
-    console.log(`[${dbName}]`, ...params)
+    const dbName = connection && connection.name ? connection.name : 'UNKNOWN_DB';
+    console.log(`[${dbName}]`, ...params);
   }
 }
 
-const error = (dbName, ...params) => {
+const error = (connection, ...params) => {
   if (process.env.NODE_ENV !== 'test') {
-    console.error(`[${dbName}]`, ...params)
+    const dbName = connection && connection.name ? connection.name : 'UNKNOWN_DB';
+    console.error(`[${dbName}]`, ...params);
   }
 }
 
 module.exports = {
-  info, error
+  info,
+  error
 }
-
