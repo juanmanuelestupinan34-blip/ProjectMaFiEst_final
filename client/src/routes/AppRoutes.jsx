@@ -1,28 +1,24 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "../pages/Login";
-import Registro from "../pages/Registro";
-import Dashboard from "../pages/Dashboard";
-import Proyectos from "../pages/Proyectos";
-import ProyectoDetalle from "../pages/ProyectoDetalle";
-import CrearProyecto from "../pages/CrearProyecto";
-import Tareas from "../pages/Tareas";
-import Perfil from "../pages/Perfil";
-import NoEncontrado from "../pages/NoEncontrado";
+import CrearUsuario from "../pages/CrearUsuario";
+import Inicio from "../pages/Inicio";
+import Nosotros from "../pages/Nosotros";
+import Recursos from "../pages/Recursos";
+import Mision from "../pages/Mision";
+import Vision from "../pages/Vision";
+import Contactanos from "../pages/Contactanos";
 
 const AppRoutes = () => (
   <Router>
     <Routes>
       <Route path="/login" element={<Login />} />
-        <Route path="/" element={<Dashboard />} />
-        <Route path="/proyectos" element={<Proyectos />} />
-        <Route path="/proyectos/crear" element={<CrearProyecto />} />
-        <Route path="/proyectos/:id" element={<ProyectoDetalle />} />
-        <Route path="/tareas" element={<Tareas />} />
-        <Route path="/perfil" element={<Perfil />} />
-        <Route path="/registro" element={<Registro />} />
-      </Route>
-      <Route path="*" element={<NoEncontrado />} />
+      <Route path="/nosotros" element={<Nosotros />} />
+      <Route path="/recursos" element={<Recursos />} />
+      <Route path="/mision" element={<Mision />} />
+      <Route path="/vision" element={<Vision />} />
+      <Route path="/contactanos" element={<Contactanos />} />
+
     </Routes>
   </Router>
 );
