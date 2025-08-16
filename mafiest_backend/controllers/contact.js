@@ -18,8 +18,8 @@ contactRouter.post("/", async (request, response, next) => {
       message,
     })
 
-    const savedMessage = await contact.save()
-    response.status(201).json(savedMessage)
+    await contact.save()
+    response.status(201).json({ message: "Mensaje enviado correctamente" })
 
   } catch (error) {
     if (error.name === "ValidationError") {
