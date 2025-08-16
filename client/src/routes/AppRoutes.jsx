@@ -16,23 +16,22 @@ const AppRoutes = () => {
   return (
     <Router>
       <Routes>
-        {/* Siempre accesible */}
         <Route path="/login" element={<Login />} />
-
-        {user ? (
+        {user && (
           <>
-            <Route path="/crear-usuario" element={<CrearUsuario />} />
             <Route path="/" element={<Inicio />} />
             <Route path="/nosotros" element={<Nosotros />} />
             <Route path="/recursos" element={<Recursos />} />
             <Route path="/mision" element={<Mision />} />
             <Route path="/vision" element={<Vision />} />
             <Route path="/contactanos" element={<Contactanos />} />
+            <Route
+              path="/crear-usuario"
+              element={user.rol === "administrador" ? <CrearUsuario /> : <Navigate to="/login" replace />}
+            />
           </>
-        ) : (
-          // Si no hay usuario logueado, redirige cualquier ruta al login
-          <Route path="*" element={<Navigate to="/login" replace />} />
         )}
+        <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
     </Router>
   )
