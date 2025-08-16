@@ -21,8 +21,7 @@ usersRouter.post('/', async (request, response, next) => {
 
     let rol = 'administrador'
 
-    if (usersCount > 0) {
-      // Solo si ya hay usuarios, pedimos token y validamos administrador
+    if (usersCount > 0) { 
       await userExtractor(request, response, () => {})
       const authUser = request.user
 
@@ -30,7 +29,7 @@ usersRouter.post('/', async (request, response, next) => {
         return response.status(403).json({ error: 'Acceso denegado: solo el administrador puede crear usuarios' })
       }
 
-      rol = request.body.rol || 'usuario' // rol por defecto para nuevos usuarios
+      rol = request.body.rol || 'usuario' 
     }
 
     const saltRounds = 10
@@ -67,7 +66,7 @@ usersRouter.delete('/:id', userExtractor, async (request, response, next) => {
     }
 
     if (!authUser || authUser.rol !== 'administrador') {
-      return response.status(403).json({ error: 'Acción denegada: solo el administrador puede eliminar empleados' })
+      return response.status(403).json({ error: 'Acción denegada: solo el administrador puede eliminar usuarios' })
     }
 
     await User.findByIdAndDelete(request.params.id)
