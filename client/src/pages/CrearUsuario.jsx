@@ -14,9 +14,21 @@ const CrearUsuario = () => {
   const [apiError, setApiError] = useState("")
   const [success, setSuccess] = useState(false)
 
+  // Obtiene el token del usuario logueado
+  const getToken = () => {
+    const userJSON = window.localStorage.getItem("user")
+    if (!userJSON) return null
+    try {
+      const user = JSON.parse(userJSON)
+      return user.token
+    } catch {
+      return null
+    }
+  };
+
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value })
-  }
+  };
 
   const validate = () => {
     const newErrors = {}
@@ -40,25 +52,23 @@ const CrearUsuario = () => {
     setSuccess(false)
     const newErrors = validate()
     setErrors(newErrors)
+
     if (Object.keys(newErrors).length === 0) {
-      const userJSON = window.localStorage.getItem("user")
-      if (!userJSON) {
+      const token = getToken()
+      if (!token) {
         setApiError("Debes iniciar sesión como administrador para crear usuarios.")
-        return
-      }
-      const currentUser = JSON.parse(userJSON)
-      if (currentUser.role !== "Admin") {
-        setApiError("Solo el administrador puede crear usuarios.")
         return
       }
 
       try {
-        userService.setToken(currentUser.token)
+        userService.setToken(token)
         await userService.create(form)
         setSuccess(true)
         setForm({ username: "", name: "", email: "", rol: "", password: "" })
       } catch (error) {
-        setApiError(error.response?.data?.error || "Error al crear usuario. Intenta de nuevo.")
+        setApiError(
+          error.response?.data?.error || "Error al crear usuario. Intenta de nuevo."
+        )
       }
     }
   }
@@ -70,7 +80,7 @@ const CrearUsuario = () => {
         <h2>Crear Usuario</h2>
         {apiError && <p style={{ color: "red" }}>{apiError}</p>}
         {success && <p style={{ color: "green" }}>¡Usuario creado exitosamente!</p>}
-        
+
         <div>
           <label>Nombre de usuario</label>
           <input type="text" name="username" value={form.username} onChange={handleChange} />
@@ -93,8 +103,8 @@ const CrearUsuario = () => {
           <label>Rol</label>
           <select name="rol" value={form.rol} onChange={handleChange}>
             <option value="">Selecciona un rol</option>
-            <option value="User">User</option>
-            <option value="Admin">Admin</option>
+            <option value="user">User</option>
+            <option value="admin">Admin</option>
           </select>
           {errors.rol && <p>{errors.rol}</p>}
         </div>
