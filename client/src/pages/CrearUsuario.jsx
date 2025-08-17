@@ -1,6 +1,7 @@
 import { useState } from "react"
 import userService from "../services/userService"
 import Menu from '../components/Menu'
+import "../styles/crearUsuario.css"
 
 const CrearUsuario = () => {
   const [form, setForm] = useState({
@@ -14,7 +15,6 @@ const CrearUsuario = () => {
   const [apiError, setApiError] = useState("")
   const [success, setSuccess] = useState(false)
 
-  // Obtiene el token del usuario logueado
   const getToken = () => {
     const userJSON = window.localStorage.getItem("user")
     if (!userJSON) return null
@@ -76,46 +76,46 @@ const CrearUsuario = () => {
   return (
     <div>
       <Menu />
-      <form onSubmit={handleSubmit}>
+      <form className="crear-form" onSubmit={handleSubmit}>
         <h2>Crear Usuario</h2>
-        {apiError && <p style={{ color: "red" }}>{apiError}</p>}
-        {success && <p style={{ color: "green" }}>¡Usuario creado exitosamente!</p>}
+        {apiError && <p className="error">{apiError}</p>}
+        {success && <p className="success">¡Usuario creado exitosamente!</p>}
 
-        <div>
+        <div className="form-group">
           <label>Nombre de usuario</label>
           <input type="text" name="username" value={form.username} onChange={handleChange} />
-          {errors.username && <p>{errors.username}</p>}
+          {errors.username && <p className="error">{errors.username}</p>}
         </div>
 
-        <div>
+        <div className="form-group">
           <label>Nombre completo</label>
           <input type="text" name="name" value={form.name} onChange={handleChange} />
-          {errors.name && <p>{errors.name}</p>}
+          {errors.name && <p className="error">{errors.name}</p>}
         </div>
 
-        <div>
+        <div className="form-group">
           <label>Correo electrónico</label>
           <input type="email" name="email" value={form.email} onChange={handleChange} />
-          {errors.email && <p>{errors.email}</p>}
+          {errors.email && <p className="error">{errors.email}</p>}
         </div>
 
-        <div>
+        <div className="form-group">
           <label>Rol</label>
           <select name="rol" value={form.rol} onChange={handleChange}>
             <option value="">Selecciona un rol</option>
             <option value="user">User</option>
             <option value="admin">Admin</option>
           </select>
-          {errors.rol && <p>{errors.rol}</p>}
+          {errors.rol && <p className="error">{errors.rol}</p>}
         </div>
 
-        <div>
+        <div className="form-group">
           <label>Contraseña</label>
           <input type="password" name="password" value={form.password} onChange={handleChange} />
-          {errors.password && <p>{errors.password}</p>}
+          {errors.password && <p className="error">{errors.password}</p>}
         </div>
 
-        <button type="submit">Crear Usuario</button>
+        <button type="submit" className="btn-submit">Crear Usuario</button>
       </form>
     </div>
   )
