@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import loginService from "../services/login"
-import Notification from "./Notification"
+import Notification from "../components/Notification"
 import "../styles/login.css"
 
 const Login = () => {
