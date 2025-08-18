@@ -4,6 +4,7 @@ const app = express()
 const cors = require('cors')
 const usersRouter = require('./controllers/users')
 const loginRouter = require('./controllers/login')
+const contactsRouter = require('./controllers/contact')  
 const advisoryRouter = require('./controllers/advisory') 
 const middleware = require('./utils/middleware')
 const logger = require('./utils/logger')
@@ -41,6 +42,7 @@ advisoryConnection.on('error', (error) => {
 // Rutas
 app.use('/api/users', usersRouter) 
 app.use('/api/login', loginRouter) 
+app.use('/api/contacts', contactsRouter)   
 app.use('/api/advisory', advisoryRouter) 
 
 app.use(middleware.unknownEndpoint)
