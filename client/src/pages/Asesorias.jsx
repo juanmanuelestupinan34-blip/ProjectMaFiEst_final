@@ -2,7 +2,7 @@ import { useState } from 'react'
 import advisoriesService from '../services/advisories'
 import Menu from '../components/Menu'
 import Footer from '../components/Footer'
-import '../styles/asesorias.css' // Importar el CSS separado
+import '../styles/asesorias.css' 
 
 const Asesorias = () => {
   const [advisories, setAdvisories] = useState([])
