@@ -10,4 +10,9 @@ const contactConnection = mongoose.createConnection(process.env.MONGO_URI_CONTAC
   useUnifiedTopology: true,
 });
 
-module.exports = { userConnection, contactConnection };
+const advisoryConnection = mongoose.createConnection(process.env.MONGO_URI_ADVISORY, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
+
+module.exports = { userConnection, contactConnection, advisoryConnection  };
