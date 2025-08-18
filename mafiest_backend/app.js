@@ -4,9 +4,10 @@ const app = express()
 const cors = require('cors')
 const usersRouter = require('./controllers/users')
 const loginRouter = require('./controllers/login')
+const advisoryRouter = require('./controllers/advisory') 
 const middleware = require('./utils/middleware')
 const logger = require('./utils/logger')
-const { userConnection, contactConnection } = require('./utils/db')
+const { userConnection, contactConnection, advisoryConnection } = require('./utils/db')
 
 app.use(cors())
 app.use(express.json())
@@ -21,20 +22,28 @@ userConnection.on('error', (error) => {
   logger.error(userConnection, 'Error en la conexión de usuarios:', error)
 })
 
-// Conectar a la base de contactanos
+// Conectar a la base de contactos
 contactConnection.once('open', () => {
-  logger.info(contactConnection, 'Conexión establecida con la base de contactos')
+  logger.info(contactConnection, 'Conexión establecida con la base de contactanos')
 })
 contactConnection.on('error', (error) => {
-  logger.error(contactConnection, 'Error en la conexión de contactos:', error)
+  logger.error(contactConnection, 'Error en la conexión de contactanos:', error)
+})
+
+// Conectar a la base de asesorias
+advisoryConnection.once('open', () => {
+  logger.info(advisoryConnection, 'Conexión establecida con la base de asesorias')
+})
+advisoryConnection.on('error', (error) => {
+  logger.error(advisoryConnection, 'Error en la conexión de asesorias:', error)
 })
 
 // Rutas
-app.use('/api/users', usersRouter)
-app.use('/api/login', loginRouter)
+app.use('/api/users', usersRouter) 
+app.use('/api/login', loginRouter) 
+app.use('/api/advisory', advisoryRouter) 
 
 app.use(middleware.unknownEndpoint)
 app.use(middleware.errorHandler)
 
 module.exports = app
-
