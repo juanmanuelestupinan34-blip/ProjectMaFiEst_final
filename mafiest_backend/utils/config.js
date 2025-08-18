@@ -8,7 +8,7 @@ const MONGO_URI_USERS = process.env.NODE_ENV === 'test'
   ? process.env.TEST_MONGO_URI_USERS
   : process.env.MONGO_URI_USERS
 
-// Base de datos de contactos
+// Base de datos de contactanos
 const MONGO_URI_CONTACT = process.env.NODE_ENV === 'test'
   ? process.env.TEST_MONGO_URI_CONTACT
   : process.env.MONGO_URI_CONTACT
