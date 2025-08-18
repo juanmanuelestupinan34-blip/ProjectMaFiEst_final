@@ -3,11 +3,13 @@ const usersRouter = require('express').Router()
 const User = require('../models/user')
 const { userExtractor } = require('../utils/middleware')
 
+// GET /api/users → Obtener todos los usuarios
 usersRouter.get('/', async (request, response) => {
   const users = await User.find({})
   response.json(users)
 })
 
+// POST /api/users → Crear un nuevo usuario
 usersRouter.post('/', async (request, response, next) => {
   try {
     const { username, name, email, password } = request.body
@@ -57,6 +59,7 @@ usersRouter.post('/', async (request, response, next) => {
   }
 })
 
+// DELETE /api/users/:id → Eliminar un usuario por ID
 usersRouter.delete('/:id', userExtractor, async (request, response, next) => {
   try {
     const authUser = request.user
