@@ -23,10 +23,7 @@ const AppRoutes = () => {
             <Route path="/asesorias" element={<Asesorias />} />
             <Route path="/recursos" element={<Recursos />} />
             <Route path="/contactanos" element={<Contactanos />} />
-            <Route
-              path="/crear-usuario"
-              element={user.rol === "administrador" ? <CrearUsuario /> : <Navigate to="/login" replace />}
-            />
+            <Route path="/crear-usuario" element={<CrearUsuario />} />
           </>
         )}
         <Route path="*" element={<Navigate to="/login" replace />} />
