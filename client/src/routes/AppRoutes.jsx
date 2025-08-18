@@ -5,8 +5,7 @@ import CrearUsuario from "../pages/CrearUsuario"
 import Inicio from "../pages/Inicio"
 import Nosotros from "../pages/Nosotros"
 import Recursos from "../pages/Recursos"
-import Mision from "../pages/Mision"
-import Vision from "../pages/Vision"
+import Asesorias from "../pages/Asesorias"
 import Contactanos from "../pages/Contactanos"
 
 const AppRoutes = () => {
@@ -21,9 +20,8 @@ const AppRoutes = () => {
           <>
             <Route path="/" element={<Inicio />} />
             <Route path="/nosotros" element={<Nosotros />} />
+            <Route path="/asesorias" element={<Asesorias />} />
             <Route path="/recursos" element={<Recursos />} />
-            <Route path="/mision" element={<Mision />} />
-            <Route path="/vision" element={<Vision />} />
             <Route path="/contactanos" element={<Contactanos />} />
             <Route
               path="/crear-usuario"
