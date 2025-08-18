@@ -13,7 +13,7 @@ const MONGO_URI_CONTACT = process.env.NODE_ENV === 'test'
   ? process.env.TEST_MONGO_URI_CONTACT
   : process.env.MONGO_URI_CONTACT
 
-// Base de datos asesorías 
+// Base de datos de asesorías 
 const MONGO_URI_ADVISORY = process.env.NODE_ENV === 'test'
   ? process.env.TEST_MONGO_URI_ADVISORY
   : process.env.MONGO_URI_ADVISORY
