@@ -1,0 +1,82 @@
+/* Contenedor principal */
+.recursos-container {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+}
+
+/* Encabezados */
+.recursos-container h1 {
+  text-align: center;
+  color: #1a1a1a;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+}
+
+.recursos-container h2 {
+  color: #333;
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+}
+
+/* Secciones estilo card */
+.recursos-section {
+  background: #f9f9f9;
+  padding: 1.5rem;
+  margin-top: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.recursos-section:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+/* Listas */
+.recursos-container ul {
+  margin-top: 1rem;
+  padding-left: 1.5rem;
+}
+
+.recursos-container li {
+  margin-bottom: 0.5rem;
+}
+
+/* Links */
+.recursos-container a {
+  color: #0077cc;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.recursos-container a:hover {
+  text-decoration: underline;
+  color: #005999;
+}
+
+/* Párrafos */
+.recursos-container p {
+  margin-top: 0.5rem;
+  color: #444;
+}
+
+/* Enlace biblioteca */
+.recursos-link {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.6rem 1rem;
+  background: #0077cc;
+  color: white;
+  border-radius: 8px;
+  transition: background 0.3s ease;
+}
+
+.recursos-link:hover {
+  background: #005999;
+}
