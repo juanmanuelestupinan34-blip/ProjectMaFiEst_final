@@ -2,6 +2,7 @@ import { useState } from 'react'
 import contactsService from '../services/contacts'
 import Menu from '../components/Menu'
 import Footer from '../components/Footer'
+import '../styles/contactanos.css' 
 
 const Contactanos = () => {
   const [contacts, setContacts] = useState([])
@@ -28,16 +29,9 @@ const Contactanos = () => {
   return (
     <div>
       <Menu />
-      <main style={{
-        maxWidth: 500,
-        margin: '40px auto',
-        padding: 24,
-        borderRadius: 12,
-        boxShadow: '0 2px 12px #0002',
-        background: '#fff'
-      }}>
-        <h1 style={{ textAlign: 'center', color: '#333' }}>Contáctanos</h1>
-        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+      <main>
+        <h1>Contáctanos</h1>
+        <form onSubmit={handleSubmit}>
           <input
             type="text"
             placeholder="Nombre completo"
@@ -71,58 +65,17 @@ const Contactanos = () => {
             onChange={e => setMessage(e.target.value)}
             required
             rows={4}
-            style={{
-              resize: 'none',
-              borderRadius: 6,
-              border: '1px solid #ccc',
-              padding: 8,
-              fontFamily: 'inherit',
-              fontSize: 16
-            }}
           />
-          <button type="submit" style={{
-            background: '#1976d2',
-            color: '#fff',
-            border: 'none',
-            borderRadius: 6,
-            padding: '10px 0',
-            fontWeight: 'bold',
-            cursor: 'pointer'
-          }}>Enviar</button>
+          <button type="submit">Enviar</button>
         </form>
       </main>
 
       {showModal && (
-        <div style={{
-          position: 'fixed',
-          top: 0, left: 0,
-          width: '100%', height: '100%',
-          backgroundColor: 'rgba(0, 0, 0, 0.5)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          zIndex: 1000
-        }}>
-          <div style={{
-            backgroundColor: '#fff',
-            padding: 24,
-            borderRadius: 12,
-            textAlign: 'center',
-            width: '90%',
-            maxWidth: 400
-          }}>
-            <h2 style={{ marginBottom: 16 }}>Enviado correctamente</h2>
+        <div className="modal">
+          <div className="modal-content">
+            <h2>Enviado correctamente</h2>
             <p>Tu mensaje ha sido enviado. Te contactaremos pronto.</p>
-            <button onClick={() => setShowModal(false)} style={{
-              marginTop: 20,
-              padding: '10px 20px',
-              borderRadius: 8,
-              border: 'none',
-              backgroundColor: '#1976d2',
-              color: '#fff',
-              fontWeight: 'bold',
-              cursor: 'pointer'
-            }}>Cerrar</button>
+            <button onClick={() => setShowModal(false)}>Cerrar</button>
           </div>
         </div>
       )}
