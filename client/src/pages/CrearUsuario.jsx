@@ -105,6 +105,8 @@ const CrearUsuario = () => {
             <option value="">Selecciona un rol</option>
             <option value="user">User</option>
             <option value="admin">Admin</option>
+            <option value="student">Student</option>
+            <option value="docent">Docent</option>
           </select>
           {errors.rol && <p className="error">{errors.rol}</p>}
         </div>
