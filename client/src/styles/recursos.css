@@ -60,13 +60,7 @@
   color: #005999;
 }
 
-/* Párrafos */
-.recursos-container p {
-  margin-top: 0.5rem;
-  color: #444;
-}
-
-/* Enlace biblioteca */
+/* Botón de acceso a carpetas */
 .recursos-link {
   display: inline-block;
   margin-top: 1rem;
