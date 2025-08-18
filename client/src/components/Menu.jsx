@@ -9,12 +9,12 @@ const Menu = () => {
 
   return (
     <nav>
-      <Link to="/">Dashboard</Link>
-      <Link to="/proyectos">Proyectos</Link>
-      <Link to="/proyectos/crear">Crear Proyecto</Link>
-      <Link to="/tareas">Tareas</Link>
-      <Link to="/perfil">Perfil</Link>
-      <Link to="/registro">Equipo</Link>
+      <Link to="/">Inicio</Link>
+      <Link to="/nosotros">Nosotros</Link>
+      <Link to="/asesorias">Asesorías</Link>
+      <Link to="/recursos">Recursos</Link>
+      <Link to="/contactanos">Contáctanos</Link>
+      <Link to="/crear-usuario">Crear Usuario</Link>
       <button onClick={handleLogout}>Cerrar sesión</button>
     </nav>
   );
