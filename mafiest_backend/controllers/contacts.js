@@ -1,12 +1,14 @@
-const contactRouter = require("express").Router()
+const contactsRouter = require("express").Router()  // Cambiado a plural
 const Contact = require("../models/contact")
 
-contactRouter.get("/", async (request, response) => {
+// Obtener todos los mensajes de contacto
+contactsRouter.get("/", async (request, response) => {
   const messages = await Contact.find({})
   response.json(messages)
 })
 
-contactRouter.post("/", async (request, response, next) => {
+// Crear un nuevo mensaje de contacto
+contactsRouter.post("/", async (request, response, next) => {
   try {
     const { name, email, phone, subject, message } = request.body
 
@@ -29,7 +31,8 @@ contactRouter.post("/", async (request, response, next) => {
   }
 })
 
-contactRouter.delete("/:id", async (request, response, next) => {
+// Eliminar un mensaje de contacto por ID
+contactsRouter.delete("/:id", async (request, response, next) => {
   try {
     const message = await Contact.findById(request.params.id)
     if (!message) {
@@ -44,4 +47,4 @@ contactRouter.delete("/:id", async (request, response, next) => {
   }
 })
 
-module.exports = contactRouter
+module.exports = contactsRouter
