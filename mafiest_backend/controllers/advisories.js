@@ -1,14 +1,14 @@
-const advisoryRouter = require("express").Router()
+const advisoriesRouter = require("express").Router()  
 const Advisory = require("../models/advisory")
 
 // Obtener todas las solicitudes de asesoría
-advisoryRouter.get("/", async (request, response) => {
+advisoriesRouter.get("/", async (request, response) => {
   const advisories = await Advisory.find({})
   response.json(advisories)
 })
 
 // Crear una nueva solicitud de asesoría
-advisoryRouter.post("/", async (request, response, next) => {
+advisoriesRouter.post("/", async (request, response, next) => {
   try {
     const { name, email, phone, topic, description, preferredDate } = request.body
 
@@ -33,7 +33,7 @@ advisoryRouter.post("/", async (request, response, next) => {
 })
 
 // Eliminar una solicitud de asesoría por ID
-advisoryRouter.delete("/:id", async (request, response, next) => {
+advisoriesRouter.delete("/:id", async (request, response, next) => {
   try {
     const advisory = await Advisory.findById(request.params.id)
     if (!advisory) {
@@ -48,4 +48,4 @@ advisoryRouter.delete("/:id", async (request, response, next) => {
   }
 })
 
-module.exports = advisoryRouter
+module.exports = advisoriesRouter
