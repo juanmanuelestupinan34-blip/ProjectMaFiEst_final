@@ -1,6 +1,6 @@
-import Menu from '../components/Menu';
-import Footer from '../components/Footer';
-import '../styles/recursos.css';
+import Menu from '../components/Menu'
+import Footer from '../components/Footer'
+import '../styles/recursos.css'
 
 const Recursos = () => {
   return (
