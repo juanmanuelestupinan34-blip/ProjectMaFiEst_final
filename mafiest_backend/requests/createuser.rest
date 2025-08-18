@@ -1,17 +1,12 @@
 POST http://localhost:3003/api/users
-
 Content-Type:application/json 
-
-
 
 {
 
   "username": "admin",
-
-  "name": "juanm",
-
-  "password": "admin1234",
-
-  "rol": "admin"
+  "name": "adminjuan",
+  "email": "pruebaadministrador@gmail.com"
+  "rol": "admin",
+  "password": "admin1234"
 
 }
