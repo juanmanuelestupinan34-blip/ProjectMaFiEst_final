@@ -2,6 +2,7 @@ POST http://localhost:3003/api/advisories
 Content-Type: application/json
 
 {
+
   "name": "Juan Pérez",
 
   "email": "juanperez@example.com",
@@ -13,5 +14,6 @@ Content-Type: application/json
   "description": "Necesito refuerzo en espacios vectoriales y transformaciones lineales.",
 
   "preferredDate": "2025-08-25"
+
 }
 
