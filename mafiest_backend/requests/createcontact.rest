@@ -1,1 +1,11 @@
+POST http://localhost:3003/api/contacts
+Content-Type: application/json
+
+{
+  "name": "Juan Manuel Estupinan",
+  "email": "juanestupinan@gmail.com",
+  "phone": "+57 3001234567",
+  "subject": "Informacion sobre asesorias",
+  "message": "Hola, me gustaria recibir mas informacion sobre los horarios y costos de las asesorias."
+}
 
