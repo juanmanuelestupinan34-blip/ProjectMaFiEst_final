@@ -55,6 +55,22 @@ const Recursos = () => {
         </section>
 
         <section className="recursos-section">
+          <h2>🎥 Grabaciones de clases</h2>
+          <p>
+            Para que ningún estudiante se quede atrás, ofrecemos acceso a las grabaciones de nuestras clases. 
+            De esta forma, puedes repasar los contenidos a tu ritmo o ponerte al día en caso de no haber podido asistir en vivo.
+          </p>
+          <a 
+            href="https://drive.google.com/drive/folders/1MHtlL9nnawuRDQYy2y3Tyckg4l4rqxsj" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="recursos-link"
+          >
+            🎬 Ver grabaciones de clases
+          </a>
+        </section>
+
+        <section className="recursos-section">
           <h2>💡 Apoyo adicional</h2>
           <p>
             En <strong>MaFiEst</strong> contamos con una librería amplia y constantemente actualizada. 
