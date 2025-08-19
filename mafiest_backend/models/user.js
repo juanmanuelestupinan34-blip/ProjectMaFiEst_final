@@ -1,5 +1,4 @@
-const mongoose = require("mongoose");
-const { userConnection } = require("../utils/db");
+const mongoose = require("mongoose")
 
 const userSchema = new mongoose.Schema({
   username: {
@@ -40,17 +39,16 @@ const userSchema = new mongoose.Schema({
   },
 }, {
   timestamps: true,
-});
+})
 
 userSchema.set("toJSON", {
   transform: (document, returnedObject) => {
-    returnedObject.id = returnedObject._id.toString();
-    delete returnedObject._id;
-    delete returnedObject.__v;
-    delete returnedObject.passwordHash;
+    returnedObject.id = returnedObject._id.toString()
+    delete returnedObject._id
+    delete returnedObject.__v
+    delete returnedObject.passwordHash
   },
-});
+})
 
-const User = userConnection.model("User", userSchema);
-
-module.exports = User;
+const User = mongoose.model("User", userSchema)
+module.exports = User
