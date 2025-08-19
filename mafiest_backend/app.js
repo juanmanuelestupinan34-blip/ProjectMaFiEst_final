@@ -1,8 +1,7 @@
 const express = require("express")
 const cors = require("cors")
 const config = require("./utils/config")
-const connectDB = require("./utils/db")
-
+const mongoose = require("mongoose") // <-- Importa mongoose
 const usersRouter = require("./controllers/users")
 const loginRouter = require("./controllers/login")
 const contactsRouter = require("./controllers/contacts")
@@ -13,7 +12,15 @@ const logger = require("./utils/logger")
 const app = express()
 
 // Conexión a la base de datos
-connectDB()
+logger.info('connecting to', config.MONGODB_URI)
+
+mongoose.connect(config.MONGODB_URI)
+  .then(() => {
+    logger.info('connected to MongoDB')
+  })
+  .catch((error) => {
+    logger.error('error connecting to MongoDB:', error.message)
+  })
 
 // Middlewares
 app.use(cors())
@@ -22,7 +29,7 @@ app.use(middleware.requestLogger)
 app.use(middleware.tokenExtractor)
 
 // Rutas
-app.use("/api/users", usersRouter)
+app.use("/api/users", usersRouter);
 app.use("/api/login", loginRouter)
 app.use("/api/contacts", contactsRouter)
 app.use("/api/advisories", advisoriesRouter)
