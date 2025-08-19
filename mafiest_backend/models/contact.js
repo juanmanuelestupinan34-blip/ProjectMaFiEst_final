@@ -1,5 +1,4 @@
-const mongoose = require("mongoose");
-const { contactConnection } = require("../utils/db");
+const mongoose = require("mongoose")
 
 const contactSchema = new mongoose.Schema({
   name: {
@@ -42,16 +41,16 @@ const contactSchema = new mongoose.Schema({
   },
 }, {
   timestamps: true,
-});
+})
 
 contactSchema.set("toJSON", {
   transform: (document, returnedObject) => {
-    returnedObject.id = returnedObject._id.toString();
-    delete returnedObject._id;
-    delete returnedObject.__v;
+    returnedObject.id = returnedObject._id.toString()
+    delete returnedObject._id
+    delete returnedObject.__v
   },
-});
+})
 
-const Contact = contactConnection.model("Contact", contactSchema);
+const Contact = mongoose.model("Contact", contactSchema)
 
-module.exports = Contact;
+module.exports = Contact
