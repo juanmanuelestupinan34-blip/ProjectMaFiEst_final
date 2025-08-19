@@ -57,4 +57,5 @@ advisorySchema.set("toJSON", {
 })
 
 const Advisory = mongoose.model("Advisory", advisorySchema)
+
 module.exports = Advisory
