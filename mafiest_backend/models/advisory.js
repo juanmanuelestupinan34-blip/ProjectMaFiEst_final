@@ -1,5 +1,4 @@
-const mongoose = require("mongoose");
-const { advisoryConnection } = require("../utils/db");
+const mongoose = require("mongoose")
 
 const advisorySchema = new mongoose.Schema({
   name: {
@@ -47,17 +46,15 @@ const advisorySchema = new mongoose.Schema({
   },
 }, {
   timestamps: true,
-});
+})
 
 advisorySchema.set("toJSON", {
   transform: (document, returnedObject) => {
-    returnedObject.id = returnedObject._id.toString();
-    delete returnedObject._id;
-    delete returnedObject.__v;
+    returnedObject.id = returnedObject._id.toString()
+    delete returnedObject._id
+    delete returnedObject.__v
   },
-});
+})
 
-const Advisory = advisoryConnection.model("Advisory", advisorySchema);
-
-module.exports = Advisory;
-
+const Advisory = mongoose.model("Advisory", advisorySchema)
+module.exports = Advisory
