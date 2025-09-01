@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { registerIndependent, login, refresh, logout } = require("../controllers/authController");
+const { registerIndependent, login, refresh, logout } = require("../controllers/auth");
 
 // Registro de usuarios independientes
 router.post("/register", registerIndependent);
