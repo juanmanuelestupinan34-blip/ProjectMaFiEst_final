@@ -1,55 +1,57 @@
-const mongoose = require("mongoose")
+const { DataTypes } = require("sequelize");
+const sequelize = require("../utils/db");
 
-const userSchema = new mongoose.Schema({
+const User = sequelize.define("User", {
+  id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
+
   username: {
-    type: String,
-    required: [true, "El nombre de usuario es obligatorio"],
-    minlength: [3, "El nombre de usuario debe tener al menos 3 caracteres"],
+    type: DataTypes.STRING,
+    allowNull: false,
     unique: true,
-    trim: true,
+    validate: {
+      len: {
+        args: [3, 20],
+        msg: "El nombre de usuario debe tener entre 3 y 20 caracteres"
+      }
+    }
   },
+
   name: {
-    type: String,
-    required: [true, "El nombre completo es obligatorio"],
-    minlength: [3, "El nombre debe tener al menos 3 caracteres"],
-    unique: true,
-    trim: true,
+    type: DataTypes.STRING,
+    allowNull: false,
+    validate: {
+      len: {
+        args: [2, 50],
+        msg: "El nombre debe tener entre 2 y 50 caracteres"
+      }
+    }
   },
+
   email: {
-    type: String,
-    required: [true, "El correo es obligatorio"],
-    minlength: [5, "El correo debe tener al menos 5 caracteres"],
+    type: DataTypes.STRING,
+    allowNull: false,
     unique: true,
-    trim: true,
-    lowercase: true,
-    match: [
-      /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,})+$/,
-      "Por favor, proporciona un correo válido",
-    ],
+    validate: {
+      isEmail: { msg: "Debe ser un correo válido" }
+    }
   },
-  rol: {
-    type: String,
-    required: [true, "El rol es obligatorio"],
-    trim: true,
-  },
+
   passwordHash: {
-    type: String,
-    required: [true, "La contraseña es obligatoria"],
-    minlength: [8, "La contraseña debe tener al menos 8 caracteres"],
+    type: DataTypes.STRING,
+    allowNull: false,
+    validate: {
+      len: {
+        args: [60, 60], // Bcrypt genera hashes de 60 caracteres
+        msg: "El hash de la contraseña no es válido"
+      }
+    }
   },
-}, {
-  timestamps: true,
-})
 
-userSchema.set("toJSON", {
-  transform: (document, returnedObject) => {
-    returnedObject.id = returnedObject._id.toString()
-    delete returnedObject._id
-    delete returnedObject.__v
-    delete returnedObject.passwordHash
-  },
-})
+  role: {
+    type: DataTypes.ENUM("admin", "teacher", "student", "independent"),
+    allowNull: false,
+    defaultValue: "independent"
+  }
+});
 
-const User = mongoose.model("User", userSchema)
-
-module.exports = User
+module.exports = User;
