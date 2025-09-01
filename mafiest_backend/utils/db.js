@@ -1,20 +1,15 @@
-const mongoose = require("mongoose")
-const { MONGO_URI } = require("./config")
-const logger = require("./logger")
+const { Sequelize } = require("sequelize");
 
-mongoose.set("strictQuery", false)
-
-const connectDB = async () => {
-  try {
-    await mongoose.connect(MONGO_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    })
-    logger.info("✅ Conexión establecida con MongoDB")
-  } catch (error) {
-    logger.error("❌ Error conectando a MongoDB:", error.message)
-    process.exit(1)
+const sequelize = new Sequelize(
+  process.env.DB_NAME,
+  process.env.DB_USER,
+  process.env.DB_PASS,
+  {
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
+    dialect: "mysql",
+    logging: false,
   }
-}
+);
 
-module.exports = connectDB
+module.exports = sequelize;
