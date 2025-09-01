@@ -1,83 +1,88 @@
-const bcrypt = require('bcrypt')
-const usersRouter = require('express').Router()
-const User = require('../models/user')
-const { userExtractor } = require('../utils/middleware')
+const bcrypt = require("bcrypt");
+const User = require("../models/User");
+const { authenticate } = require("../utils/authMiddleware");
 
-// GET /api/users → Obtener todos los usuarios
-usersRouter.get('/', async (request, response) => {
-  const users = await User.find({})
-  response.json(users)
-})
-
-// POST /api/users → Crear un nuevo usuario
-usersRouter.post('/', async (request, response, next) => {
+// =========================
+// GET → Obtener todos los usuarios
+// =========================
+exports.getUsers = async (req, res) => {
   try {
-    const { username, name, email, password } = request.body
-    const usersCount = await User.countDocuments({})
+    const users = await User.findAll({
+      attributes: ["id", "username", "name", "email", "role"],
+    });
+    res.json(users);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+// =========================
+// POST → Crear un nuevo usuario
+// =========================
+exports.createUser = async (req, res) => {
+  try {
+    const { username, name, email, password, role } = req.body;
+
+    const usersCount = await User.count();
 
     if (!password || password.length < 8) {
-      return response.status(400).json({
-        error: 'La contraseña debe tener al menos 8 caracteres'
-      })
+      return res.status(400).json({ error: "La contraseña debe tener al menos 8 caracteres" });
     }
 
-    let rol = 'administrador'
+    // Primer usuario siempre será admin
+    let finalRole = "admin";
 
-    if (usersCount > 0) { 
-      await userExtractor(request, response, () => {})
-      const authUser = request.user
-
-      if (!authUser || authUser.rol !== 'administrador') {
-        return response.status(403).json({ error: 'Acceso denegado: solo el administrador puede crear usuarios' })
+    if (usersCount > 0) {
+      // Debe estar autenticado
+      const authUser = req.user;
+      if (!authUser || authUser.role !== "admin") {
+        return res.status(403).json({ error: "Acceso denegado: solo el administrador puede crear usuarios" });
       }
 
-      rol = request.body.rol || 'usuario' 
+      // Si es admin puede asignar rol
+      finalRole = role || "student";
     }
 
-    const saltRounds = 10
-    const passwordHash = await bcrypt.hash(password, saltRounds)
+    // Hash password
+    const saltRounds = 10;
+    const passwordHash = await bcrypt.hash(password, saltRounds);
 
-    const user = new User({
+    const newUser = await User.create({
       username,
       name,
       email,
-      rol,
+      role: finalRole,
       passwordHash,
-    })
+    });
 
-    const savedUser = await user.save()
-    response.status(201).json(savedUser)
-
+    res.status(201).json(newUser);
   } catch (error) {
-    if (error.name === 'MongoServerError' && error.code === 11000) {
-      return response.status(400).json({ error: 'El usuario, correo o nombre ya está registrado' })
+    if (error.name === "SequelizeUniqueConstraintError") {
+      return res.status(400).json({ error: "El usuario o correo ya está registrado" });
     }
-    if (error.name === 'ValidationError') {
-      return response.status(400).json({ error: error.message })
-    }
-    next(error)
+    res.status(500).json({ error: error.message });
   }
-})
+};
 
-// DELETE /api/users/:id → Eliminar un usuario por ID
-usersRouter.delete('/:id', userExtractor, async (request, response, next) => {
+// =========================
+// DELETE → Eliminar un usuario
+// =========================
+exports.deleteUser = async (req, res) => {
   try {
-    const authUser = request.user
-    const user = await User.findById(request.params.id)
+    const authUser = req.user;
+
+    if (!authUser || authUser.role !== "admin") {
+      return res.status(403).json({ error: "Acción denegada: solo el administrador puede eliminar usuarios" });
+    }
+
+    const user = await User.findByPk(req.params.id);
     if (!user) {
-      return response.status(404).json({ error: 'user not found' })
+      return res.status(404).json({ error: "Usuario no encontrado" });
     }
 
-    if (!authUser || authUser.rol !== 'administrador') {
-      return response.status(403).json({ error: 'Acción denegada: solo el administrador puede eliminar usuarios' })
-    }
-
-    await User.findByIdAndDelete(request.params.id)
-    response.status(204).end()
-
+    await user.destroy();
+    res.status(204).end();
   } catch (error) {
-    next(error)
+    res.status(500).json({ error: error.message });
   }
-})
-
-module.exports = usersRouter
+};
