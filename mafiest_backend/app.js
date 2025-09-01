@@ -1,41 +1,40 @@
-const express = require("express")
-const cors = require("cors")
-const config = require("./utils/config")
-const mongoose = require("mongoose") // <-- Importa mongoose
-const usersRouter = require("./controllers/users")
-const loginRouter = require("./controllers/login")
-const contactsRouter = require("./controllers/contacts")
-const advisoriesRouter = require("./controllers/advisories")
-const middleware = require("./utils/middleware")
-const logger = require("./utils/logger")
+const express = require("express");
+const cors = require("cors");
+const config = require("./utils/config");
+const sequelize = require("./utils/db");
+const middleware = require("./utils/middleware");
+const logger = require("./utils/logger");
 
-const app = express()
+const users = require("./routes/users");
+const auth = require("./routes/auth");
+const contacts = require("./routes/contacts");
+const advisories = require("./routes/advisories");
+const progress = require("./routes/progress");
+const achievements = require("./routes/achievements");
 
-// Conexión a la base de datos
-logger.info('connecting to', config.MONGODB_URI)
+const app = express();
 
-mongoose.connect(config.MONGODB_URI)
-  .then(() => {
-    logger.info('connected to MongoDB')
-  })
-  .catch((error) => {
-    logger.error('error connecting to MongoDB:', error.message)
-  })
+logger.info("Conectando a MySQL...");
+sequelize.authenticate()
+  .then(() => logger.info("✅ Conectado a MySQL"))
+  .catch((error) => logger.error("❌ Error al conectar a MySQL:", error.message));
 
 // Middlewares
-app.use(cors())
-app.use(express.json())
-app.use(middleware.requestLogger)
-app.use(middleware.tokenExtractor)
+app.use(cors());
+app.use(express.json());
+app.use(middleware.requestLogger);
+app.use(middleware.tokenExtractor);
 
 // Rutas
-app.use("/api/users", usersRouter);
-app.use("/api/login", loginRouter)
-app.use("/api/contacts", contactsRouter)
-app.use("/api/advisories", advisoriesRouter)
+app.use("/api/users", users);
+app.use("/api/auth", auth);
+app.use("/api/contacts", contacts);
+app.use("/api/advisories", advisories);
+app.use("/api/progress", progress);
+app.use("/api/achievements", achievements);
 
 // Manejo de errores
-app.use(middleware.unknownEndpoint)
-app.use(middleware.errorHandler)
+app.use(middleware.unknownEndpoint);
+app.use(middleware.errorHandler);
 
-module.exports = app
+module.exports = app;
