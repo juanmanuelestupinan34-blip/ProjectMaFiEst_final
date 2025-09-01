@@ -1,7 +1,10 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const progressCtrl = require('../controllers/progress');
+const { authenticate } = require("../utils/authMiddleware");
+const { getProgress, updateProgress } = require("../controllers/progressController");
 
-router.get('/example', progressCtrl.example);
+// Progreso de cursos
+router.get("/", authenticate, getProgress);
+router.put("/", authenticate, updateProgress);
 
 module.exports = router;
