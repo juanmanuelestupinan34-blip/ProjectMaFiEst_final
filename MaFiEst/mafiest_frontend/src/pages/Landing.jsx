@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './styles/landing.css'; // Assuming you will create a CSS file for styling
+import '../styles/pages/landing.css'; // Assuming you will create a CSS file for styling
 
 const Landing = () => {
     return (
