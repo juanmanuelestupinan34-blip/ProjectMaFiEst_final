@@ -1,34 +1,18 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import './dashboard.css';
 
-const StudentDashboard = () => {
+const Dashboard = () => {
     return (
         <div className="dashboard">
-            <h1>Bienvenido al Panel del Estudiante</h1>
-            <nav>
-                <ul>
-                    <li>
-                        <Link to="/student/courses">Cursos</Link>
-                    </li>
-                    <li>
-                        <Link to="/student/progress">Progreso</Link>
-                    </li>
-                    <li>
-                        <Link to="/student/achievements">Mis Logros</Link>
-                    </li>
-                    <li>
-                        <Link to="/contact">Contáctanos</Link>
-                    </li>
-                    <li>
-                        <Link to="/advisory">Solicitar Asesoría</Link>
-                    </li>
-                    <li>
-                        <Link to="/config">Configuración</Link>
-                    </li>
-                </ul>
-            </nav>
+            <h1>Bienvenido al Panel de Control del Estudiante</h1>
+            <div className="dashboard-links">
+                <Link to="/student/courses" className="dashboard-link">Cursos Disponibles</Link>
+                <Link to="/student/progress" className="dashboard-link">Progreso</Link>
+                <Link to="/student/achievements" className="dashboard-link">Mis Logros</Link>
+            </div>
         </div>
     );
 };
 
-export default StudentDashboard;
+export default Dashboard;

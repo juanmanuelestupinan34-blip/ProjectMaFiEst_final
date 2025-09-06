@@ -9,6 +9,8 @@ export default defineConfig({
     extends: [
         'eslint:recommended',
         'plugin:node/recommended',
+        'plugin:import/errors',
+        'plugin:import/warnings',
         'plugin:prettier/recommended',
     ],
     parserOptions: {
@@ -18,6 +20,12 @@ export default defineConfig({
     rules: {
         'no-console': 'warn',
         'no-unused-vars': 'warn',
-        'prettier/prettier': 'error',
+        'import/order': [
+            'error',
+            {
+                groups: [['builtin', 'external'], 'internal', ['parent', 'sibling', 'index']],
+                'newlines-between': 'always',
+            },
+        ],
     },
 });

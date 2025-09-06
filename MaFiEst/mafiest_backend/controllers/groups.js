@@ -1,19 +1,17 @@
-const { Group } = require('../models/Group');
-const { User } = require('../models/User');
+const { Group } = require('../models');
 
-// Create a new academic group
+// Create a new group
 exports.createGroup = async (req, res) => {
-    const { name, description } = req.body;
-
     try {
-        const newGroup = await Group.create({ name, description });
+        const { name } = req.body;
+        const newGroup = await Group.create({ name });
         res.status(201).json(newGroup);
     } catch (error) {
         res.status(500).json({ error: 'Error creating group' });
     }
 };
 
-// Get all academic groups
+// Get all groups
 exports.getAllGroups = async (req, res) => {
     try {
         const groups = await Group.findAll();
@@ -25,10 +23,8 @@ exports.getAllGroups = async (req, res) => {
 
 // Get a group by ID
 exports.getGroupById = async (req, res) => {
-    const { id } = req.params;
-
     try {
-        const group = await Group.findByPk(id);
+        const group = await Group.findByPk(req.params.id);
         if (!group) {
             return res.status(404).json({ error: 'Group not found' });
         }
@@ -38,55 +34,34 @@ exports.getGroupById = async (req, res) => {
     }
 };
 
-// Update a group by ID
+// Update a group
 exports.updateGroup = async (req, res) => {
-    const { id } = req.params;
-    const { name, description } = req.body;
-
     try {
-        const group = await Group.findByPk(id);
-        if (!group) {
+        const { name } = req.body;
+        const [updated] = await Group.update({ name }, {
+            where: { id: req.params.id }
+        });
+        if (!updated) {
             return res.status(404).json({ error: 'Group not found' });
         }
-        group.name = name;
-        group.description = description;
-        await group.save();
-        res.status(200).json(group);
+        const updatedGroup = await Group.findByPk(req.params.id);
+        res.status(200).json(updatedGroup);
     } catch (error) {
         res.status(500).json({ error: 'Error updating group' });
     }
 };
 
-// Delete a group by ID
+// Delete a group
 exports.deleteGroup = async (req, res) => {
-    const { id } = req.params;
-
     try {
-        const group = await Group.findByPk(id);
-        if (!group) {
+        const deleted = await Group.destroy({
+            where: { id: req.params.id }
+        });
+        if (!deleted) {
             return res.status(404).json({ error: 'Group not found' });
         }
-        await group.destroy();
         res.status(204).send();
     } catch (error) {
         res.status(500).json({ error: 'Error deleting group' });
-    }
-};
-
-// Assign users to a group
-exports.assignUsersToGroup = async (req, res) => {
-    const { groupId, userIds } = req.body;
-
-    try {
-        const group = await Group.findByPk(groupId);
-        if (!group) {
-            return res.status(404).json({ error: 'Group not found' });
-        }
-
-        const users = await User.findAll({ where: { id: userIds } });
-        await group.addUsers(users);
-        res.status(200).json({ message: 'Users assigned to group' });
-    } catch (error) {
-        res.status(500).json({ error: 'Error assigning users to group' });
     }
 };

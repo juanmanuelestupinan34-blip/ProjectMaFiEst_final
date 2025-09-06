@@ -1,7 +1,9 @@
 const express = require('express');
 const cors = require('cors');
-const morgan = require('morgan');
-const { sequelize } = require('./utils/db');
+const app = express();
+const db = require('./utils/db');
+const logger = require('./utils/logger');
+const middleware = require('./utils/middleware');
 const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/users');
 const groupRoutes = require('./routes/groups');
@@ -9,14 +11,11 @@ const progressRoutes = require('./routes/progress');
 const achievementRoutes = require('./routes/achievements');
 const contactRoutes = require('./routes/contacts');
 const advisoryRoutes = require('./routes/advisories');
-const middleware = require('./utils/middleware');
-
-const app = express();
 
 // Middleware
 app.use(cors());
 app.use(express.json());
-app.use(morgan('dev'));
+app.use(middleware.tokenExtractor);
 
 // Routes
 app.use('/api/auth', authRoutes);
@@ -30,17 +29,17 @@ app.use('/api/advisories', advisoryRoutes);
 // Error handling middleware
 app.use(middleware.errorHandler);
 
-// Database connection and server start
+// Connect to the database and start the server
 const startServer = async () => {
     try {
-        await sequelize.authenticate();
-        console.log('Database connected successfully.');
+        await db.authenticate();
+        logger.info('Database connection established successfully.');
         const PORT = process.env.PORT || 3000;
         app.listen(PORT, () => {
-            console.log(`Server running on port ${PORT}`);
+            logger.info(`Server running on port ${PORT}`);
         });
     } catch (error) {
-        console.error('Unable to connect to the database:', error);
+        logger.error('Unable to connect to the database:', error);
     }
 };
 

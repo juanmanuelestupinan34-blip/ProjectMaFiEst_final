@@ -1,6 +1,6 @@
 const express = require('express');
-const app = express();
 const cors = require('cors');
+const app = express();
 const db = require('./utils/db');
 const config = require('./utils/config');
 const logger = require('./utils/logger');
@@ -11,18 +11,14 @@ app.use(cors());
 app.use(express.json());
 app.use(middleware.tokenExtractor);
 
-app.use('/api/auth', routes.auth);
-app.use('/api/users', routes.users);
-app.use('/api/groups', routes.groups);
-app.use('/api/progress', routes.progress);
-app.use('/api/achievements', routes.achievements);
-app.use('/api/contacts', routes.contacts);
-app.use('/api/advisories', routes.advisories);
+app.use('/api', routes);
+
+const PORT = config.PORT || 3000;
 
 db.sync()
   .then(() => {
-    app.listen(config.PORT, () => {
-      logger.info(`Server running on port ${config.PORT}`);
+    app.listen(PORT, () => {
+      logger.info(`Server running on port ${PORT}`);
     });
   })
   .catch((error) => {

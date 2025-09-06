@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import AdminDashboard from '../pages/admin/Dashboard';
 import ManageUsers from '../pages/admin/ManageUsers';
 import ManageGroups from '../pages/admin/ManageGroups';
@@ -24,32 +24,34 @@ import RutaProtegida from './RutaProtegida';
 
 const AppRoutes = () => {
     return (
-        <Routes>
-            <Route path="/" element={<Landing />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/advisory" element={<Advisory />} />
-            <Route path="/config" element={<RutaProtegida><Config /></RutaProtegida>} />
-            
-            <Route path="/admin/dashboard" element={<RutaProtegida><AdminDashboard /></RutaProtegida>} />
-            <Route path="/admin/manage-users" element={<RutaProtegida><ManageUsers /></RutaProtegida>} />
-            <Route path="/admin/manage-groups" element={<RutaProtegida><ManageGroups /></RutaProtegida>} />
-            
-            <Route path="/student/dashboard" element={<RutaProtegida><StudentDashboard /></RutaProtegida>} />
-            <Route path="/student/courses" element={<RutaProtegida><Courses /></RutaProtegida>} />
-            <Route path="/student/progress" element={<RutaProtegida><Progress /></RutaProtegida>} />
-            <Route path="/student/achievements" element={<RutaProtegida><Achievements /></RutaProtegida>} />
-            
-            <Route path="/teacher/dashboard" element={<RutaProtegida><TeacherDashboard /></RutaProtegida>} />
-            <Route path="/teacher/upload-exams" element={<RutaProtegida><UploadExams /></RutaProtegida>} />
-            <Route path="/teacher/upload-workshops" element={<RutaProtegida><UploadWorkshops /></RutaProtegida>} />
-            
-            <Route path="/independent/dashboard" element={<RutaProtegida><IndependentDashboard /></RutaProtegida>} />
-            <Route path="/independent/courses" element={<RutaProtegida><IndependentCourses /></RutaProtegida>} />
-            <Route path="/independent/progress" element={<RutaProtegida><IndependentProgress /></RutaProtegida>} />
-            <Route path="/independent/achievements" element={<RutaProtegida><IndependentAchievements /></RutaProtegida>} />
-        </Routes>
+        <Router>
+            <Switch>
+                <Route path="/" exact component={Landing} />
+                <Route path="/login" component={Login} />
+                <Route path="/register" component={Register} />
+                <RutaProtegida path="/contact" component={Contact} />
+                <RutaProtegida path="/advisory" component={Advisory} />
+                <RutaProtegida path="/config" component={Config} />
+                
+                <RutaProtegida path="/admin/dashboard" component={AdminDashboard} />
+                <RutaProtegida path="/admin/manage-users" component={ManageUsers} />
+                <RutaProtegida path="/admin/manage-groups" component={ManageGroups} />
+                
+                <RutaProtegida path="/student/dashboard" component={StudentDashboard} />
+                <RutaProtegida path="/student/courses" component={Courses} />
+                <RutaProtegida path="/student/progress" component={Progress} />
+                <RutaProtegida path="/student/achievements" component={Achievements} />
+                
+                <RutaProtegida path="/teacher/dashboard" component={TeacherDashboard} />
+                <RutaProtegida path="/teacher/upload-exams" component={UploadExams} />
+                <RutaProtegida path="/teacher/upload-workshops" component={UploadWorkshops} />
+                
+                <RutaProtegida path="/independent/dashboard" component={IndependentDashboard} />
+                <RutaProtegida path="/independent/courses" component={IndependentCourses} />
+                <RutaProtegida path="/independent/progress" component={IndependentProgress} />
+                <RutaProtegida path="/independent/achievements" component={IndependentAchievements} />
+            </Switch>
+        </Router>
     );
 };
 

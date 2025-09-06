@@ -7,7 +7,7 @@ exports.getAchievements = async (req, res) => {
         const achievements = await Achievement.findAll();
         res.status(200).json(achievements);
     } catch (error) {
-        res.status(500).json({ message: 'Error al obtener logros', error });
+        res.status(500).json({ error: 'Error al obtener logros' });
     }
 };
 
@@ -19,7 +19,7 @@ exports.addUserAchievement = async (req, res) => {
         const userAchievement = await UserAchievement.create({ userId, achievementId });
         res.status(201).json(userAchievement);
     } catch (error) {
-        res.status(500).json({ message: 'Error al registrar logro', error });
+        res.status(500).json({ error: 'Error al registrar logro' });
     }
 };
 
@@ -34,6 +34,6 @@ exports.getUserAchievements = async (req, res) => {
         });
         res.status(200).json(userAchievements);
     } catch (error) {
-        res.status(500).json({ message: 'Error al obtener logros del usuario', error });
+        res.status(500).json({ error: 'Error al obtener logros del usuario' });
     }
 };

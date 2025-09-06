@@ -1,59 +1,20 @@
 const express = require('express');
 const router = express.Router();
-const { Advisory } = require('../models');
+const AdvisoryController = require('../controllers/advisories');
 
-// Endpoint to create a new advisory
-router.post('/', async (req, res) => {
-    const { name, email, message } = req.body;
+// Endpoint para crear una nueva asesoría
+router.post('/', AdvisoryController.createAdvisory);
 
-    try {
-        const advisory = await Advisory.create({ name, email, message });
-        res.status(201).json(advisory);
-    } catch (error) {
-        res.status(400).json({ error: error.message });
-    }
-});
+// Endpoint para obtener todas las asesorías
+router.get('/', AdvisoryController.getAllAdvisories);
 
-// Endpoint to get all advisories
-router.get('/', async (req, res) => {
-    try {
-        const advisories = await Advisory.findAll();
-        res.status(200).json(advisories);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-});
+// Endpoint para obtener una asesoría por ID
+router.get('/:id', AdvisoryController.getAdvisoryById);
 
-// Endpoint to get a specific advisory by ID
-router.get('/:id', async (req, res) => {
-    const { id } = req.params;
+// Endpoint para actualizar una asesoría por ID
+router.put('/:id', AdvisoryController.updateAdvisory);
 
-    try {
-        const advisory = await Advisory.findByPk(id);
-        if (advisory) {
-            res.status(200).json(advisory);
-        } else {
-            res.status(404).json({ error: 'Advisory not found' });
-        }
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-});
-
-// Endpoint to delete an advisory by ID
-router.delete('/:id', async (req, res) => {
-    const { id } = req.params;
-
-    try {
-        const result = await Advisory.destroy({ where: { id } });
-        if (result) {
-            res.status(204).send();
-        } else {
-            res.status(404).json({ error: 'Advisory not found' });
-        }
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-});
+// Endpoint para eliminar una asesoría por ID
+router.delete('/:id', AdvisoryController.deleteAdvisory);
 
 module.exports = router;

@@ -1,16 +1,18 @@
 const { DataTypes } = require('sequelize');
-const db = require('../utils/db');
+const sequelize = require('../utils/db');
 
-const Advisory = db.define('Advisory', {
-    name: {
-        type: DataTypes.STRING,
-        allowNull: false,
+const Advisory = sequelize.define('Advisory', {
+    id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
     },
-    email: {
-        type: DataTypes.STRING,
+    userId: {
+        type: DataTypes.INTEGER,
         allowNull: false,
-        validate: {
-            isEmail: true,
+        references: {
+            model: 'Users',
+            key: 'id',
         },
     },
     message: {
@@ -19,6 +21,8 @@ const Advisory = db.define('Advisory', {
     },
 }, {
     timestamps: true,
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
 });
 
 module.exports = Advisory;

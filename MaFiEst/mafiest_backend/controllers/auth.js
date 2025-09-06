@@ -5,63 +5,57 @@ const { User } = require('../models');
 const { tokenExtractor } = require('../utils/middleware');
 const router = express.Router();
 
-// Login
-router.post('/login', async (req, res) => {
-    const { email, password } = req.body;
-
-    const user = await User.findOne({ where: { email } });
-    const passwordCorrect = user === null ? false : await bcrypt.compare(password, user.passwordHash);
-
-    if (!(user && passwordCorrect)) {
-        return res.status(401).json({ error: 'invalid email or password' });
-    }
-
-    const userForToken = {
-        id: user.id,
-        email: user.email,
-        role: user.role,
-    };
-
-    const token = jwt.sign(userForToken, process.env.JWT_SECRET, { expiresIn: '1h' });
-
-    res.status(200).json({ token, user: userForToken });
-});
-
-// Logout
-router.post('/logout', tokenExtractor, (req, res) => {
-    // Invalidate the token on the client side
-    res.status(200).json({ message: 'Logged out successfully' });
-});
-
-// Register Independent User
+// Registro de usuarios independientes
 router.post('/register', async (req, res) => {
     const { name, email, password } = req.body;
 
-    const existingUser = await User.findOne({ where: { email } });
-    if (existingUser) {
-        return res.status(400).json({ error: 'Email already in use' });
+    try {
+        const existingUser = await User.findOne({ where: { email } });
+        if (existingUser) {
+            return res.status(400).json({ error: 'El correo ya está en uso.' });
+        }
+
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const newUser = await User.create({ name, email, password: hashedPassword, role: 'independent' });
+
+        res.status(201).json({ message: 'Usuario registrado exitosamente.', userId: newUser.id });
+    } catch (error) {
+        res.status(500).json({ error: 'Error al registrar el usuario.' });
     }
-
-    const saltRounds = 10;
-    const passwordHash = await bcrypt.hash(password, saltRounds);
-
-    const newUser = await User.create({
-        name,
-        email,
-        passwordHash,
-        role: 'independent',
-    });
-
-    res.status(201).json({ message: 'User registered successfully', user: newUser });
 });
 
-// Refresh Token (optional)
+// Inicio de sesión
+router.post('/login', async (req, res) => {
+    const { email, password } = req.body;
+
+    try {
+        const user = await User.findOne({ where: { email } });
+        if (!user) {
+            return res.status(401).json({ error: 'Credenciales inválidas.' });
+        }
+
+        const passwordMatch = await bcrypt.compare(password, user.password);
+        if (!passwordMatch) {
+            return res.status(401).json({ error: 'Credenciales inválidas.' });
+        }
+
+        const token = jwt.sign({ id: user.id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        res.json({ token, userId: user.id, role: user.role });
+    } catch (error) {
+        res.status(500).json({ error: 'Error al iniciar sesión.' });
+    }
+});
+
+// Cierre de sesión
+router.post('/logout', tokenExtractor, (req, res) => {
+    res.status(200).json({ message: 'Sesión cerrada exitosamente.' });
+});
+
+// Refresh de token (opcional)
 router.post('/refresh', tokenExtractor, (req, res) => {
-    const user = req.user;
-
-    const newToken = jwt.sign({ id: user.id, email: user.email, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
-
-    res.status(200).json({ token: newToken });
+    const { id, role } = req.user;
+    const newToken = jwt.sign({ id, role }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    res.json({ token: newToken });
 });
 
 module.exports = router;

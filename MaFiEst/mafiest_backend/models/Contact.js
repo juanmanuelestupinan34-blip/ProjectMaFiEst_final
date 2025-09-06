@@ -1,7 +1,12 @@
 const { DataTypes } = require('sequelize');
-const db = require('../utils/db');
+const sequelize = require('../utils/db');
 
-const Contact = db.define('Contact', {
+const Contact = sequelize.define('Contact', {
+    id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+    },
     name: {
         type: DataTypes.STRING,
         allowNull: false,

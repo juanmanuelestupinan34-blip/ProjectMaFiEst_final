@@ -1,28 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import './styles/config.css';
 
 const Config = () => {
-    const [user, setUser] = useState(null);
-    const [achievements, setAchievements] = useState([]);
-    const [formData, setFormData] = useState({
+    const [user, setUser] = useState({
         name: '',
         email: '',
-        password: ''
+        password: '',
     });
+    const [achievements, setAchievements] = useState([]);
 
     useEffect(() => {
         // Fetch user data and achievements
         const fetchData = async () => {
             try {
-                const userResponse = await axios.get('/api/users/me'); // Endpoint to get current user
+                const response = await axios.get('/api/users/me'); // Endpoint to get user data
+                setUser(response.data);
+
                 const achievementsResponse = await axios.get('/api/achievements'); // Endpoint to get user achievements
-                setUser(userResponse.data);
                 setAchievements(achievementsResponse.data);
-                setFormData({
-                    name: userResponse.data.name,
-                    email: userResponse.data.email,
-                    password: ''
-                });
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
@@ -33,16 +29,16 @@ const Config = () => {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData({
-            ...formData,
-            [name]: value
-        });
+        setUser((prevUser) => ({
+            ...prevUser,
+            [name]: value,
+        }));
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.put('/api/users/me', formData); // Endpoint to update user data
+            await axios.put('/api/users/me', user); // Endpoint to update user data
             alert('Profile updated successfully!');
         } catch (error) {
             console.error('Error updating profile:', error);
@@ -50,46 +46,47 @@ const Config = () => {
     };
 
     return (
-        <div>
-            <h1>Configuración</h1>
-            {user && (
-                <form onSubmit={handleSubmit}>
-                    <div>
-                        <label>Nombre:</label>
-                        <input
-                            type="text"
-                            name="name"
-                            value={formData.name}
-                            onChange={handleChange}
-                        />
-                    </div>
-                    <div>
-                        <label>Correo:</label>
-                        <input
-                            type="email"
-                            name="email"
-                            value={formData.email}
-                            onChange={handleChange}
-                        />
-                    </div>
-                    <div>
-                        <label>Contraseña:</label>
-                        <input
-                            type="password"
-                            name="password"
-                            value={formData.password}
-                            onChange={handleChange}
-                        />
-                    </div>
-                    <button type="submit">Actualizar</button>
-                </form>
-            )}
+        <div className="config-container">
+            <h1>Configuración de Perfil</h1>
+            <form onSubmit={handleSubmit}>
+                <div>
+                    <label htmlFor="name">Nombre:</label>
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        value={user.name}
+                        onChange={handleChange}
+                    />
+                </div>
+                <div>
+                    <label htmlFor="email">Correo:</label>
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        value={user.email}
+                        onChange={handleChange}
+                    />
+                </div>
+                <div>
+                    <label htmlFor="password">Contraseña:</label>
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        value={user.password}
+                        onChange={handleChange}
+                    />
+                </div>
+                <button type="submit">Actualizar</button>
+            </form>
             <h2>Mis Logros</h2>
             <ul>
                 {achievements.map((achievement) => (
                     <li key={achievement.id}>
                         <img src={achievement.icon} alt={achievement.title} />
-                        <strong>{achievement.title}</strong>: {achievement.description} (Obtenido el: {new Date(achievement.dateEarned).toLocaleDateString()})
+                        <span>{achievement.title}</span> - {achievement.description}
                     </li>
                 ))}
             </ul>

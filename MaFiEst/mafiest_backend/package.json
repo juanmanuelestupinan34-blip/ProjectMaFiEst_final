@@ -8,15 +8,6 @@
     "dev": "nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [
-    "express",
-    "sequelize",
-    "postgresql",
-    "jwt",
-    "api"
-  ],
-  "author": "Your Name",
-  "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.0.1",
     "cors": "^2.8.5",
@@ -29,5 +20,8 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.7"
-  }
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }

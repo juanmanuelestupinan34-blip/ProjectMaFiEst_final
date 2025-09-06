@@ -1,10 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import './dashboard.css';
 
 const TeacherDashboard = () => {
     return (
-        <div>
-            <h1>Panel del Docente</h1>
+        <div className="teacher-dashboard">
+            <h1>Panel de Control del Docente</h1>
             <nav>
                 <ul>
                     <li>

@@ -1,38 +1,39 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import './progress.css';
 
 const Progress = () => {
     const [progressData, setProgressData] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const userId = localStorage.getItem('userId'); // Assuming userId is stored in localStorage
 
     useEffect(() => {
         const fetchProgress = async () => {
             try {
-                const response = await axios.get('/api/progress');
+                const response = await axios.get(`/api/progress/${userId}`);
                 setProgressData(response.data);
-            } catch (err) {
-                setError(err.message);
+            } catch (error) {
+                console.error('Error fetching progress data:', error);
             } finally {
                 setLoading(false);
             }
         };
 
         fetchProgress();
-    }, []);
+    }, [userId]);
 
-    if (loading) return <div>Cargando...</div>;
-    if (error) return <div>Error: {error}</div>;
+    if (loading) {
+        return <div>Loading...</div>;
+    }
 
     return (
-        <div>
-            <h1>Progreso de Cursos</h1>
+        <div className="progress-container">
+            <h1>My Progress</h1>
             <ul>
                 {progressData.map((item) => (
                     <li key={item.id}>
                         <h2>{item.courseName}</h2>
-                        <p>Área: {item.area}</p>
-                        <p>Progreso: {item.progressPercentage}%</p>
+                        <p>Progress: {item.progress}%</p>
                     </li>
                 ))}
             </ul>

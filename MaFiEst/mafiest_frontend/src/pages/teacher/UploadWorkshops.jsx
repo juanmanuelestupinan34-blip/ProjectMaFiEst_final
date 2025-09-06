@@ -36,18 +36,19 @@ const UploadWorkshops = () => {
                     'Content-Type': 'multipart/form-data',
                 },
             });
-            console.log('Workshop uploaded successfully:', response.data);
+            alert('Taller subido con éxito');
         } catch (error) {
-            console.error('Error uploading workshop:', error);
+            console.error('Error al subir el taller:', error);
+            alert('Error al subir el taller');
         }
     };
 
     return (
         <div>
-            <h2>Upload Workshop</h2>
+            <h2>Subir Talleres</h2>
             <form onSubmit={handleSubmit}>
                 <div>
-                    <label>Title:</label>
+                    <label>Título:</label>
                     <input
                         type="text"
                         name="title"
@@ -57,7 +58,7 @@ const UploadWorkshops = () => {
                     />
                 </div>
                 <div>
-                    <label>Description:</label>
+                    <label>Descripción:</label>
                     <textarea
                         name="description"
                         value={workshopData.description}
@@ -66,14 +67,14 @@ const UploadWorkshops = () => {
                     />
                 </div>
                 <div>
-                    <label>Upload File:</label>
+                    <label>Archivo:</label>
                     <input
                         type="file"
                         onChange={handleFileChange}
                         required
                     />
                 </div>
-                <button type="submit">Upload</button>
+                <button type="submit">Subir Taller</button>
             </form>
         </div>
     );

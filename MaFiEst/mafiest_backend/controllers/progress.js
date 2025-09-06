@@ -1,51 +1,79 @@
-const { Progress } = require('../models/Progress');
-const { User } = require('../models/User');
+const express = require('express');
+const { Progress } = require('../models');
+const { userExtractor } = require('../utils/middleware');
 
-// Registrar progreso de un usuario
-exports.registerProgress = async (req, res) => {
-    const { userId, area, progress } = req.body;
+const router = express.Router();
 
+// Get progress for a user
+router.get('/', userExtractor, async (req, res) => {
     try {
-        const newProgress = await Progress.create({ userId, area, progress });
-        res.status(201).json(newProgress);
+        const progress = await Progress.findAll({
+            where: { userId: req.user.id }
+        });
+        res.json(progress);
     } catch (error) {
-        res.status(500).json({ message: 'Error al registrar el progreso', error });
+        res.status(500).json({ error: 'Error fetching progress' });
     }
-};
+});
 
-// Consultar progreso de un usuario
-exports.getProgress = async (req, res) => {
-    const { userId } = req.params;
-
-    try {
-        const progressData = await Progress.findAll({ where: { userId } });
-        res.status(200).json(progressData);
-    } catch (error) {
-        res.status(500).json({ message: 'Error al obtener el progreso', error });
-    }
-};
-
-// Actualizar progreso de un usuario
-exports.updateProgress = async (req, res) => {
-    const { userId, area } = req.params;
+// Update progress for a user
+router.put('/:id', userExtractor, async (req, res) => {
+    const { id } = req.params;
     const { progress } = req.body;
 
     try {
-        const updatedProgress = await Progress.update({ progress }, { where: { userId, area } });
-        res.status(200).json(updatedProgress);
-    } catch (error) {
-        res.status(500).json({ message: 'Error al actualizar el progreso', error });
-    }
-};
+        const updatedProgress = await Progress.update({ progress }, {
+            where: {
+                id,
+                userId: req.user.id
+            }
+        });
 
-// Eliminar progreso de un usuario
-exports.deleteProgress = async (req, res) => {
-    const { userId, area } = req.params;
+        if (updatedProgress[0] === 0) {
+            return res.status(404).json({ error: 'Progress not found or not authorized' });
+        }
+
+        res.status(200).json({ message: 'Progress updated successfully' });
+    } catch (error) {
+        res.status(500).json({ error: 'Error updating progress' });
+    }
+});
+
+// Add progress for a user
+router.post('/', userExtractor, async (req, res) => {
+    const { progress } = req.body;
 
     try {
-        await Progress.destroy({ where: { userId, area } });
-        res.status(204).send();
+        const newProgress = await Progress.create({
+            userId: req.user.id,
+            progress
+        });
+        res.status(201).json(newProgress);
     } catch (error) {
-        res.status(500).json({ message: 'Error al eliminar el progreso', error });
+        res.status(500).json({ error: 'Error creating progress' });
     }
-};
+});
+
+// Delete progress for a user
+router.delete('/:id', userExtractor, async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const deleted = await Progress.destroy({
+            where: {
+                id,
+                userId: req.user.id
+            }
+        });
+
+        if (deleted === 0) {
+            return res.status(404).json({ error: 'Progress not found or not authorized' });
+        }
+
+        res.status(204).end();
+    } catch (error) {
+        res.status(500).json({ error: 'Error deleting progress' });
+    }
+});
+
+module.exports = router;

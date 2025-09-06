@@ -3,16 +3,16 @@ const router = express.Router();
 const authController = require('../controllers/auth');
 const { tokenExtractor } = require('../utils/middleware');
 
-// Login route
+// Ruta para el inicio de sesión
 router.post('/login', authController.login);
 
-// Logout route
-router.post('/logout', tokenExtractor, authController.logout);
-
-// Register independent user route
+// Ruta para el registro de independientes
 router.post('/register', authController.register);
 
-// Token refresh route
+// Ruta para el cierre de sesión
+router.post('/logout', tokenExtractor, authController.logout);
+
+// Ruta para refrescar el token
 router.post('/refresh', authController.refreshToken);
 
 module.exports = router;

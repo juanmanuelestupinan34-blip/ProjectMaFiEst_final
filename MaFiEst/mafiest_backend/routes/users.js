@@ -3,22 +3,11 @@ const router = express.Router();
 const UserController = require('../controllers/users');
 const { tokenExtractor, userExtractor } = require('../utils/middleware');
 
-// Middleware to protect routes
-router.use(tokenExtractor);
-
-// Get all users
-router.get('/', userExtractor, UserController.getAllUsers);
-
-// Get user by ID
-router.get('/:id', userExtractor, UserController.getUserById);
-
-// Create a new user
-router.post('/', userExtractor, UserController.createUser);
-
-// Update user by ID
-router.put('/:id', userExtractor, UserController.updateUser);
-
-// Delete user by ID
-router.delete('/:id', userExtractor, UserController.deleteUser);
+// Rutas para la gestión de usuarios
+router.get('/', tokenExtractor, userExtractor, UserController.getAllUsers); // Obtener todos los usuarios
+router.get('/:id', tokenExtractor, userExtractor, UserController.getUserById); // Obtener usuario por ID
+router.post('/', tokenExtractor, userExtractor, UserController.createUser); // Crear un nuevo usuario
+router.put('/:id', tokenExtractor, userExtractor, UserController.updateUser); // Actualizar usuario por ID
+router.delete('/:id', tokenExtractor, userExtractor, UserController.deleteUser); // Eliminar usuario por ID
 
 module.exports = router;

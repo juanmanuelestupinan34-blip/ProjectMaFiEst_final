@@ -10,8 +10,7 @@ const Contact = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
-        
-        // Aquí se puede agregar la lógica para enviar el formulario al backend
+
         try {
             const response = await fetch('/api/contacts', {
                 method: 'POST',
@@ -36,7 +35,7 @@ const Contact = () => {
 
     return (
         <div className="contact-container">
-            <h2>Contáctanos</h2>
+            <h1>Contáctanos</h1>
             {success && <p className="success-message">Mensaje enviado con éxito!</p>}
             {error && <p className="error-message">{error}</p>}
             <form onSubmit={handleSubmit}>

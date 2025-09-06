@@ -4,7 +4,6 @@ import axios from 'axios';
 const ManageGroups = () => {
     const [groups, setGroups] = useState([]);
     const [groupName, setGroupName] = useState('');
-    const [groupDescription, setGroupDescription] = useState('');
     const [editingGroupId, setEditingGroupId] = useState(null);
 
     useEffect(() => {
@@ -23,38 +22,28 @@ const ManageGroups = () => {
     const handleAddGroup = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('/api/groups', { name: groupName, description: groupDescription });
-            setGroups([...groups, response.data]);
+            if (editingGroupId) {
+                await axios.put(`/api/groups/${editingGroupId}`, { name: groupName });
+            } else {
+                await axios.post('/api/groups', { name: groupName });
+            }
             setGroupName('');
-            setGroupDescription('');
+            setEditingGroupId(null);
+            fetchGroups();
         } catch (error) {
-            console.error('Error adding group:', error);
+            console.error('Error adding/updating group:', error);
         }
     };
 
     const handleEditGroup = (group) => {
-        setEditingGroupId(group.id);
         setGroupName(group.name);
-        setGroupDescription(group.description);
-    };
-
-    const handleUpdateGroup = async (e) => {
-        e.preventDefault();
-        try {
-            const response = await axios.put(`/api/groups/${editingGroupId}`, { name: groupName, description: groupDescription });
-            setGroups(groups.map(group => (group.id === editingGroupId ? response.data : group)));
-            setEditingGroupId(null);
-            setGroupName('');
-            setGroupDescription('');
-        } catch (error) {
-            console.error('Error updating group:', error);
-        }
+        setEditingGroupId(group.id);
     };
 
     const handleDeleteGroup = async (id) => {
         try {
             await axios.delete(`/api/groups/${id}`);
-            setGroups(groups.filter(group => group.id !== id));
+            fetchGroups();
         } catch (error) {
             console.error('Error deleting group:', error);
         }
@@ -62,28 +51,21 @@ const ManageGroups = () => {
 
     return (
         <div>
-            <h2>Manage Groups</h2>
-            <form onSubmit={editingGroupId ? handleUpdateGroup : handleAddGroup}>
+            <h1>Manage Groups</h1>
+            <form onSubmit={handleAddGroup}>
                 <input
                     type="text"
-                    placeholder="Group Name"
                     value={groupName}
                     onChange={(e) => setGroupName(e.target.value)}
-                    required
-                />
-                <textarea
-                    placeholder="Group Description"
-                    value={groupDescription}
-                    onChange={(e) => setGroupDescription(e.target.value)}
+                    placeholder="Group Name"
                     required
                 />
                 <button type="submit">{editingGroupId ? 'Update Group' : 'Add Group'}</button>
             </form>
             <ul>
-                {groups.map(group => (
+                {groups.map((group) => (
                     <li key={group.id}>
-                        <h3>{group.name}</h3>
-                        <p>{group.description}</p>
+                        {group.name}
                         <button onClick={() => handleEditGroup(group)}>Edit</button>
                         <button onClick={() => handleDeleteGroup(group.id)}>Delete</button>
                     </li>

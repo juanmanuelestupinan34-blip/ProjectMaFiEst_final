@@ -17,18 +17,5 @@
     "vite": "^2.0.0",
     "eslint": "^7.0.0",
     "eslint-plugin-react": "^7.0.0"
-  },
-  "eslintConfig": {
-    "extends": [
-      "plugin:react/recommended"
-    ],
-    "rules": {
-      "react/react-in-jsx-scope": "off"
-    }
-  },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not op_mini all"
-  ]
+  }
 }

@@ -1,34 +1,40 @@
-const { DataTypes } = require('sequelize');
-const db = require('../utils/db');
+// Modelo que relaciona usuarios con logros
+const { Model, DataTypes } = require('sequelize');
+const sequelize = require('../utils/db');
 
-const UserAchievement = db.define('UserAchievement', {
+class UserAchievement extends Model {}
+
+UserAchievement.init({
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
-        autoIncrement: true,
+        autoIncrement: true
     },
     userId: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
             model: 'Users',
-            key: 'id',
-        },
-        onDelete: 'CASCADE',
+            key: 'id'
+        }
     },
     achievementId: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
             model: 'Achievements',
-            key: 'id',
-        },
-        onDelete: 'CASCADE',
+            key: 'id'
+        }
     },
     dateEarned: {
         type: DataTypes.DATE,
-        defaultValue: DataTypes.NOW,
-    },
+        defaultValue: DataTypes.NOW
+    }
+}, {
+    sequelize,
+    modelName: 'UserAchievement',
+    tableName: 'UserAchievements',
+    timestamps: false
 });
 
 module.exports = UserAchievement;

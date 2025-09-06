@@ -2,7 +2,7 @@ const { User } = require('../models');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-// Create a new user
+// Crear un nuevo usuario
 exports.createUser = async (req, res) => {
     const { name, email, password, role } = req.body;
 
@@ -15,7 +15,7 @@ exports.createUser = async (req, res) => {
     }
 };
 
-// Get all users
+// Obtener todos los usuarios
 exports.getAllUsers = async (req, res) => {
     try {
         const users = await User.findAll();
@@ -25,7 +25,7 @@ exports.getAllUsers = async (req, res) => {
     }
 };
 
-// Get a user by ID
+// Obtener un usuario por ID
 exports.getUserById = async (req, res) => {
     const { id } = req.params;
 
@@ -34,14 +34,14 @@ exports.getUserById = async (req, res) => {
         if (user) {
             res.status(200).json(user);
         } else {
-            res.status(404).json({ error: 'User not found' });
+            res.status(404).json({ error: 'Usuario no encontrado' });
         }
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 };
 
-// Update a user
+// Actualizar un usuario
 exports.updateUser = async (req, res) => {
     const { id } = req.params;
     const { name, email, password, role } = req.body;
@@ -58,14 +58,14 @@ exports.updateUser = async (req, res) => {
             await user.save();
             res.status(200).json(user);
         } else {
-            res.status(404).json({ error: 'User not found' });
+            res.status(404).json({ error: 'Usuario no encontrado' });
         }
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
 };
 
-// Delete a user
+// Eliminar un usuario
 exports.deleteUser = async (req, res) => {
     const { id } = req.params;
 
@@ -75,7 +75,7 @@ exports.deleteUser = async (req, res) => {
             await user.destroy();
             res.status(204).send();
         } else {
-            res.status(404).json({ error: 'User not found' });
+            res.status(404).json({ error: 'Usuario no encontrado' });
         }
     } catch (error) {
         res.status(500).json({ error: error.message });

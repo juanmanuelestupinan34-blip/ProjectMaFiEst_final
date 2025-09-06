@@ -2,13 +2,9 @@ import React from 'react';
 import { Navigate } from 'react-router-dom';
 
 const RutaProtegida = ({ children }) => {
-    const token = localStorage.getItem('token'); // Asumiendo que el token se guarda en localStorage
+    const isAuthenticated = localStorage.getItem('token') !== null;
 
-    if (!token) {
-        return <Navigate to="/login" replace />;
-    }
-
-    return children;
+    return isAuthenticated ? children : <Navigate to="/login" />;
 };
 
 export default RutaProtegida;

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import CourseCard from '../../components/CourseCard';
+import './courses.css';
 
 const Courses = () => {
     const [courses, setCourses] = useState([]);
@@ -13,7 +14,7 @@ const Courses = () => {
                 const response = await axios.get('/api/courses'); // Adjust the endpoint as necessary
                 setCourses(response.data);
             } catch (err) {
-                setError(err.message);
+                setError('Error fetching courses');
             } finally {
                 setLoading(false);
             }
@@ -22,13 +23,13 @@ const Courses = () => {
         fetchCourses();
     }, []);
 
-    if (loading) return <div>Loading courses...</div>;
-    if (error) return <div>Error: {error}</div>;
+    if (loading) return <div>Loading...</div>;
+    if (error) return <div>{error}</div>;
 
     return (
-        <div>
+        <div className="courses-container">
             <h1>Available Courses</h1>
-            <div className="courses-container">
+            <div className="courses-list">
                 {courses.map(course => (
                     <CourseCard key={course.id} course={course} />
                 ))}

@@ -1,23 +1,19 @@
-// Group.js
-const { Model, DataTypes } = require('sequelize');
+const { DataTypes } = require('sequelize');
 const sequelize = require('../utils/db');
 
-class Group extends Model {}
-
-Group.init({
-  name: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  description: {
-    type: DataTypes.TEXT,
-    allowNull: true,
-  },
+const Group = sequelize.define('Group', {
+    id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+    },
+    name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
 }, {
-  sequelize,
-  modelName: 'Group',
+    timestamps: true,
+    tableName: 'groups',
 });
-
-// Associations can be defined here if needed
 
 module.exports = Group;

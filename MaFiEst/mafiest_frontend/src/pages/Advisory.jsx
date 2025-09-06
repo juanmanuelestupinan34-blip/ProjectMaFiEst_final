@@ -1,65 +1,55 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 
 const Advisory = () => {
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
     const [message, setMessage] = useState('');
+    const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
     const [error, setError] = useState('');
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true);
+        setError('');
+        
         try {
-            const response = await axios.post('/api/advisories', { name, email, message });
-            if (response.status === 200) {
-                setSuccess(true);
-                setName('');
-                setEmail('');
-                setMessage('');
+            const response = await fetch('/api/advisories', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                },
+                body: JSON.stringify({ message })
+            });
+
+            if (!response.ok) {
+                throw new Error('Error al enviar la asesoría');
             }
+
+            setSuccess(true);
+            setMessage('');
         } catch (err) {
-            setError('Error al enviar la asesoría. Inténtalo de nuevo.');
+            setError(err.message);
+        } finally {
+            setLoading(false);
         }
     };
 
     return (
         <div className="advisory-container">
-            <h2>Solicitar Asesoría</h2>
+            <h2>Enviar Asesoría</h2>
+            <form onSubmit={handleSubmit}>
+                <textarea
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    placeholder="Escribe tu mensaje aquí..."
+                    required
+                />
+                <button type="submit" disabled={loading}>
+                    {loading ? 'Enviando...' : 'Enviar'}
+                </button>
+            </form>
             {success && <p className="success-message">Asesoría enviada con éxito!</p>}
             {error && <p className="error-message">{error}</p>}
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label htmlFor="name">Nombre:</label>
-                    <input
-                        type="text"
-                        id="name"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        required
-                    />
-                </div>
-                <div>
-                    <label htmlFor="email">Correo:</label>
-                    <input
-                        type="email"
-                        id="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                    />
-                </div>
-                <div>
-                    <label htmlFor="message">Mensaje:</label>
-                    <textarea
-                        id="message"
-                        value={message}
-                        onChange={(e) => setMessage(e.target.value)}
-                        required
-                    />
-                </div>
-                <button type="submit">Enviar</button>
-            </form>
         </div>
     );
 };

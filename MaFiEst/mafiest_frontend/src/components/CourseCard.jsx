@@ -1,13 +1,12 @@
 import React from 'react';
+import './course-card.css';
 
 const CourseCard = ({ course }) => {
     return (
         <div className="course-card">
-            <h3>{course.title}</h3>
-            <p>{course.description}</p>
-            <p><strong>Área:</strong> {course.area}</p>
-            <p><strong>Progreso:</strong> {course.progress}%</p>
-            <button className="btn">Ver Curso</button>
+            <h3 className="course-title">{course.title}</h3>
+            <p className="course-description">{course.description}</p>
+            <a href={course.link} className="course-link">Ver Curso</a>
         </div>
     );
 };

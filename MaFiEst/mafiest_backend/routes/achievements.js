@@ -1,21 +1,20 @@
 const express = require('express');
 const router = express.Router();
 const achievementsController = require('../controllers/achievements');
-const { tokenExtractor, userExtractor } = require('../utils/middleware');
 
-// Get all achievements for a user
-router.get('/', tokenExtractor, userExtractor, achievementsController.getUserAchievements);
+// Obtener todos los logros
+router.get('/', achievementsController.getAllAchievements);
 
-// Create a new achievement
-router.post('/', tokenExtractor, userExtractor, achievementsController.createAchievement);
+// Obtener un logro por ID
+router.get('/:id', achievementsController.getAchievementById);
 
-// Get a specific achievement by ID
-router.get('/:id', tokenExtractor, userExtractor, achievementsController.getAchievementById);
+// Crear un nuevo logro
+router.post('/', achievementsController.createAchievement);
 
-// Update an achievement by ID
-router.put('/:id', tokenExtractor, userExtractor, achievementsController.updateAchievement);
+// Actualizar un logro por ID
+router.put('/:id', achievementsController.updateAchievement);
 
-// Delete an achievement by ID
-router.delete('/:id', tokenExtractor, userExtractor, achievementsController.deleteAchievement);
+// Eliminar un logro por ID
+router.delete('/:id', achievementsController.deleteAchievement);
 
 module.exports = router;

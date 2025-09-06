@@ -1,21 +1,22 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './Landing.css'; // Assuming you have a CSS file for styling
+import './styles/landing.css'; // Assuming you will create a CSS file for styling
 
 const Landing = () => {
     return (
         <div className="landing-container">
             <header className="landing-header">
                 <h1>Bienvenido a MaFiEst</h1>
-                <p>Tu plataforma de aprendizaje y desarrollo personal.</p>
+                <p>Tu plataforma de aprendizaje en línea.</p>
             </header>
             <main className="landing-main">
-                <section className="landing-info">
-                    <h2>¿Qué es MaFiEst?</h2>
-                    <p>
-                        MaFiEst es una plataforma diseñada para facilitar el aprendizaje en diversas áreas,
-                        ofreciendo cursos, talleres y un sistema de logros que te motiva a seguir avanzando.
-                    </p>
+                <section className="landing-features">
+                    <h2>Características</h2>
+                    <ul>
+                        <li>Acceso a cursos en diversas áreas.</li>
+                        <li>Seguimiento de progreso personalizado.</li>
+                        <li>Logros y recompensas por tu esfuerzo.</li>
+                    </ul>
                 </section>
                 <section className="landing-actions">
                     <h2>Comienza ahora</h2>

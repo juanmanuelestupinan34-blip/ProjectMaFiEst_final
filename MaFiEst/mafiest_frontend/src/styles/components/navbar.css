@@ -1,0 +1,52 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background-color: #4CAF50; /* Color de fondo */
+    color: white; /* Color del texto */
+}
+
+.navbar .logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.navbar .menu {
+    display: flex;
+    gap: 1rem;
+}
+
+.navbar .menu a {
+    color: white; /* Color de los enlaces */
+    text-decoration: none; /* Sin subrayado */
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.navbar .menu a:hover {
+    background-color: rgba(255, 255, 255, 0.2); /* Efecto hover */
+}
+
+.navbar .user-info {
+    display: flex;
+    align-items: center;
+}
+
+.navbar .user-info .username {
+    margin-right: 1rem;
+}
+
+.navbar .user-info .logout {
+    cursor: pointer;
+    color: white; /* Color del botón de cerrar sesión */
+    padding: 0.5rem 1rem;
+    border: none;
+    background-color: transparent;
+    transition: color 0.3s;
+}
+
+.navbar .user-info .logout:hover {
+    color: rgba(255, 255, 255, 0.7); /* Efecto hover en cerrar sesión */
+}

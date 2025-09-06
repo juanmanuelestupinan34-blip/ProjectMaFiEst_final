@@ -1,26 +1,18 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import './dashboard.css';
 
 const Dashboard = () => {
     return (
-        <div>
-            <h1>Bienvenido al Panel del Independiente</h1>
-            <nav>
-                <ul>
-                    <li>
-                        <Link to="/independent/courses">Cursos Disponibles</Link>
-                    </li>
-                    <li>
-                        <Link to="/independent/progress">Progreso</Link>
-                    </li>
-                    <li>
-                        <Link to="/independent/achievements">Mis Logros</Link>
-                    </li>
-                    <li>
-                        <Link to="/config">Configuración</Link>
-                    </li>
-                </ul>
-            </nav>
+        <div className="dashboard">
+            <h1>Bienvenido a tu Panel de Control</h1>
+            <p>Como usuario independiente, aquí puedes gestionar tu progreso y acceder a los cursos disponibles.</p>
+            <div className="dashboard-links">
+                <Link to="/independent/courses" className="dashboard-link">Ver Cursos</Link>
+                <Link to="/independent/progress" className="dashboard-link">Ver Progreso</Link>
+                <Link to="/independent/achievements" className="dashboard-link">Mis Logros</Link>
+                <Link to="/independent/config" className="dashboard-link">Configuración</Link>
+            </div>
         </div>
     );
 };

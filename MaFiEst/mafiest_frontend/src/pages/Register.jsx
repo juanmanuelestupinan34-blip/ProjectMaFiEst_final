@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import './register.css';
 
 const Register = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
-    const navigate = useNavigate();
+    const [success, setSuccess] = useState('');
 
-    const handleRegister = async (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
+        setSuccess('');
 
         try {
             const response = await axios.post('/api/auth/register', {
@@ -19,20 +20,19 @@ const Register = () => {
                 email,
                 password,
             });
-
-            if (response.status === 201) {
-                navigate('/login');
-            }
+            setSuccess('Registro exitoso. Puedes iniciar sesión ahora.');
+            setName('');
+            setEmail('');
+            setPassword('');
         } catch (err) {
-            setError('Error al registrar. Intente nuevamente.');
+            setError(err.response.data.error || 'Error en el registro. Inténtalo de nuevo.');
         }
     };
 
     return (
         <div className="register-container">
             <h2>Registro de Independiente</h2>
-            {error && <p className="error">{error}</p>}
-            <form onSubmit={handleRegister}>
+            <form onSubmit={handleSubmit}>
                 <div>
                     <label htmlFor="name">Nombre:</label>
                     <input
@@ -61,9 +61,12 @@ const Register = () => {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         required
+                        minLength="8"
                     />
                 </div>
                 <button type="submit">Registrar</button>
+                {error && <p className="error">{error}</p>}
+                {success && <p className="success">{success}</p>}
             </form>
         </div>
     );
