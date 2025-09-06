@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import '../styles/roles/teacher.css';
 
 const UploadExams = () => {
     const [examFile, setExamFile] = useState(null);
