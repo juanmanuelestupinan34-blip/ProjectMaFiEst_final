@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './styles/config.css';
+import '../styles/pages/config.css';
 
 const Config = () => {
     const [user, setUser] = useState({
