@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import '../styles/roles/student.css';
+import '../styles/pages/progress.css';
 
 const Progress = () => {
     const [progressData, setProgressData] = useState([]);
