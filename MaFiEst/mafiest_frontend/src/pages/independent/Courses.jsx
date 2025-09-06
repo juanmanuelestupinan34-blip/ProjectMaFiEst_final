@@ -1,4 +1,6 @@
 import React from 'react';
+import '../styles/roles/independent.css';
+
 
 const Courses = () => {
     return (
