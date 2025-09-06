@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import '../styles/roles/teacher.css';
 
 const UploadWorkshops = () => {
     const [workshopData, setWorkshopData] = useState({
