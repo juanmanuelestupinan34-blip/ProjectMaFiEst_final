@@ -25,7 +25,7 @@ const Landing = () => {
                 </section>
             </main>
             <footer className="landing-footer">
-                <p>&copy; 2023 MaFiEst. Todos los derechos reservados.</p>
+                <p>&copy; 2025 MaFiEst. Todos los derechos reservados.</p>
             </footer>
         </div>
     );
