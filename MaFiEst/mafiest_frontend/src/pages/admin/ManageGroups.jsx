@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import '../styles/roles/admin.css'; 
 
 const ManageGroups = () => {
     const [groups, setGroups] = useState([]);
