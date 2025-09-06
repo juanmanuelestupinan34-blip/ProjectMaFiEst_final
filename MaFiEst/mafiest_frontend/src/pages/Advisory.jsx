@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import '../styles/pages/advisory.css'; 
 
 const Advisory = () => {
     const [message, setMessage] = useState('');
