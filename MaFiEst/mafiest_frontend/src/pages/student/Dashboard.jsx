@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './dashboard.css';
+import '../styles/roles/student.css';
 
 const Dashboard = () => {
     return (
