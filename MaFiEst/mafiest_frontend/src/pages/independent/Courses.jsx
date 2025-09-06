@@ -1,6 +1,5 @@
 import React from 'react';
-import '../styles/roles/independent.css';
-
+import '../styles/pages/courses.css';
 
 const Courses = () => {
     return (
