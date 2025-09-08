@@ -3,18 +3,12 @@ const router = express.Router();
 const achievementsController = require('../controllers/achievements');
 
 // Obtener todos los logros
-router.get('/', achievementsController.getAllAchievements);
+router.get('/', achievementsController.getAchievements);
 
-// Obtener un logro por ID
-router.get('/:id', achievementsController.getAchievementById);
+// Registrar un logro para un usuario
+router.post('/user', achievementsController.addUserAchievement);
 
-// Crear un nuevo logro
-router.post('/', achievementsController.createAchievement);
-
-// Actualizar un logro por ID
-router.put('/:id', achievementsController.updateAchievement);
-
-// Eliminar un logro por ID
-router.delete('/:id', achievementsController.deleteAchievement);
+// Obtener logros de un usuario
+router.get('/user/:userId', achievementsController.getUserAchievements);
 
 module.exports = router;
