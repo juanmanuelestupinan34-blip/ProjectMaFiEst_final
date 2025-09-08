@@ -1,5 +1,4 @@
 const { Achievement, UserAchievement } = require('../models');
-const { Op } = require('sequelize');
 
 // Obtener todos los logros
 exports.getAchievements = async (req, res) => {
