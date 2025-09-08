@@ -37,8 +37,15 @@ User.hasMany(Contact, { foreignKey: 'userId' });
 Advisory.belongsTo(User, { foreignKey: 'userId' });
 User.hasMany(Advisory, { foreignKey: 'userId' });
 
+// Relaciones exámenes - usuario 
+           // Exam pertenece a un User (docente) y a un Group
+Exam.belongsTo(User, { foreignKey: "teacherId" });
+Exam.belongsTo(Group, { foreignKey: "groupId" });
 
-// Relaciones exámenes - usuario
+User.hasMany(Exam, { foreignKey: "teacherId" });
+Group.hasMany(Exam, { foreignKey: "groupId" });
+
+           // Relaciones resultados de exámenes - usuario
 ExamResult.belongsTo(User, { foreignKey: "studentId" });
 ExamResult.belongsTo(Exam, { foreignKey: "examId" });
 
@@ -53,8 +60,7 @@ Workshop.belongsTo(Group, { foreignKey: "groupId" });
 User.hasMany(Workshop, { foreignKey: "teacherId" });
 Group.hasMany(Workshop, { foreignKey: "groupId" });
 
-
-// Relaciones talleres enviados - usuario
+            // Relaciones talleres enviados - usuario
 WorkshopSubmission.belongsTo(User, { foreignKey: "studentId" });
 WorkshopSubmission.belongsTo(Workshop, { foreignKey: "workshopId" });
 
