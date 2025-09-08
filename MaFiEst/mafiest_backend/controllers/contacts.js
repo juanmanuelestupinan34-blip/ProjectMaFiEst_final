@@ -1,27 +1,26 @@
-const express = require('express');
-const router = express.Router();
-const { Contact } = require('../models/Contact');
+const Contact = require("../models/Contact");
 
-// Endpoint to handle contact form submissions
-router.post('/', async (req, res) => {
-    const { name, email, message } = req.body;
-
+const contactController = {
+  // Crear un contacto
+  async createContact(req, res) {
     try {
-        const newContact = await Contact.create({ name, email, message });
-        res.status(201).json(newContact);
+      const { name, email, message } = req.body;
+      const newContact = await Contact.create({ name, email, message });
+      res.status(201).json(newContact);
     } catch (error) {
-        res.status(500).json({ error: 'Error creating contact entry' });
+      res.status(500).json({ error: "Error al crear el contacto" });
     }
-});
+  },
 
-// Endpoint to get all contact entries (optional)
-router.get('/', async (req, res) => {
+  // Obtener todos los contactos
+  async getContacts(req, res) {
     try {
-        const contacts = await Contact.findAll();
-        res.status(200).json(contacts);
+      const contacts = await Contact.findAll();
+      res.status(200).json(contacts);
     } catch (error) {
-        res.status(500).json({ error: 'Error fetching contacts' });
+      res.status(500).json({ error: "Error al obtener los contactos" });
     }
-});
+  }
+};
 
-module.exports = router;
+module.exports = contactController;
