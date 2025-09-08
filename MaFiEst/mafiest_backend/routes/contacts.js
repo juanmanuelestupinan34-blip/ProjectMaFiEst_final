@@ -2,7 +2,10 @@ const express = require('express');
 const router = express.Router();
 const contactsController = require('../controllers/contacts');
 
-// Endpoint para manejar el formulario de contacto
-router.post('/', contactsController.handleContactForm);
+// Crear contacto
+router.post('/', contactsController.createContact);
+
+// Obtener todos los contactos
+router.get('/', contactsController.getContacts);
 
 module.exports = router;
