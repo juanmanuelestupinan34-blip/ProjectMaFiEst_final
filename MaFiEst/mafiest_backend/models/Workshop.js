@@ -1,7 +1,5 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../utils/db.js";
-import User from "./User.js";
-import Group from "./Group.js";
 
 const Workshop = sequelize.define("Workshop", {
   id: {
@@ -23,19 +21,11 @@ const Workshop = sequelize.define("Workshop", {
   },
   teacherId: {
     type: DataTypes.INTEGER,
-    allowNull: false,
-    references: {
-      model: "Users",
-      key: "id"
-    }
+    allowNull: false
   },
   groupId: {
     type: DataTypes.INTEGER,
-    allowNull: false,
-    references: {
-      model: "Groups",
-      key: "id"
-    }
+    allowNull: false
   },
   deadline: {
     type: DataTypes.DATE, // fecha límite de entrega
@@ -49,9 +39,5 @@ const Workshop = sequelize.define("Workshop", {
   tableName: "Workshops",
   timestamps: false
 });
-
-// Relaciones
-Workshop.belongsTo(User, { foreignKey: "teacherId" });
-Workshop.belongsTo(Group, { foreignKey: "groupId" });
 
 export default Workshop;
