@@ -37,4 +37,13 @@ User.hasMany(Contact, { foreignKey: 'userId' });
 Advisory.belongsTo(User, { foreignKey: 'userId' });
 User.hasMany(Advisory, { foreignKey: 'userId' });
 
+
+// Relaciones exámenes - usuario
+ExamResult.belongsTo(User, { foreignKey: "studentId" });
+ExamResult.belongsTo(Exam, { foreignKey: "examId" });
+
+User.hasMany(ExamResult, { foreignKey: "studentId" });
+Exam.hasMany(ExamResult, { foreignKey: "examId" });
+
+
 module.exports = models;
