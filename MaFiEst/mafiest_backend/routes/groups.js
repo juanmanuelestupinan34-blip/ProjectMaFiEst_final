@@ -1,20 +1,21 @@
 const express = require('express');
 const router = express.Router();
 const groupsController = require('../controllers/groups');
+const { tokenExtractor, userExtractor, isAdmin } = require('../utils/middleware');
 
-// Create a new group
-router.post('/', groupsController.createGroup);
+// Crear un grupo (solo admin)
+router.post('/', tokenExtractor, userExtractor, isAdmin, groupsController.createGroup);
 
-// Get all groups
-router.get('/', groupsController.getAllGroups);
+// Obtener todos los grupos (admin puede ver todos, pero si quieres también docentes)
+router.get('/', tokenExtractor, userExtractor, isAdmin, groupsController.getAllGroups);
 
-// Get a group by ID
-router.get('/:id', groupsController.getGroupById);
+// Obtener un grupo por ID
+router.get('/:id', tokenExtractor, userExtractor, isAdmin, groupsController.getGroupById);
 
-// Update a group by ID
-router.put('/:id', groupsController.updateGroup);
+// Actualizar un grupo (solo admin)
+router.put('/:id', tokenExtractor, userExtractor, isAdmin, groupsController.updateGroup);
 
-// Delete a group by ID
-router.delete('/:id', groupsController.deleteGroup);
+// Eliminar un grupo (solo admin)
+router.delete('/:id', tokenExtractor, userExtractor, isAdmin, groupsController.deleteGroup);
 
 module.exports = router;
