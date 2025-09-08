@@ -46,4 +46,13 @@ User.hasMany(ExamResult, { foreignKey: "studentId" });
 Exam.hasMany(ExamResult, { foreignKey: "examId" });
 
 
+// Relaciones talleres - usuario
+Workshop.belongsTo(User, { foreignKey: "teacherId" });
+Workshop.belongsTo(Group, { foreignKey: "groupId" });
+
+User.hasMany(Workshop, { foreignKey: "teacherId" });
+Group.hasMany(Workshop, { foreignKey: "groupId" });
+
+
+
 module.exports = models;
