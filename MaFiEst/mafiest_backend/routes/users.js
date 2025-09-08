@@ -1,21 +1,22 @@
 const express = require('express');
 const router = express.Router();
-const UserController = require('../controllers/users');
+const userController = require('../controllers/users');
 const { tokenExtractor, userExtractor } = require('../utils/middleware');
+const { isAdmin } = require('../utils/roles');
 
 // Obtener todos los usuarios (solo admin)
-router.get('/', tokenExtractor, userExtractor, UserController.getAllUsers);
+router.get('/', tokenExtractor, userExtractor, isAdmin, userController.getAllUsers);
 
 // Obtener usuario por ID (usuario autenticado o admin)
-router.get('/:id', tokenExtractor, userExtractor, UserController.getUserById);
+router.get('/:id', tokenExtractor, userExtractor, userController.getUserById);
 
-// Crear un nuevo usuario (generalmente no necesario porque ya existe /auth/register)
-router.post('/', tokenExtractor, userExtractor, UserController.createUser);
+// Crear un nuevo usuario (solo admin, ya que independientes se registran en /auth/register)
+router.post('/', tokenExtractor, userExtractor, isAdmin, userController.createUser);
 
-// Actualizar usuario por ID
-router.put('/:id', tokenExtractor, userExtractor, UserController.updateUser);
+// Actualizar usuario (puede hacerlo el mismo usuario o admin)
+router.put('/:id', tokenExtractor, userExtractor, userController.updateUser);
 
-// Eliminar usuario por ID
-router.delete('/:id', tokenExtractor, userExtractor, UserController.deleteUser);
+// Eliminar usuario (solo admin)
+router.delete('/:id', tokenExtractor, userExtractor, isAdmin, userController.deleteUser);
 
 module.exports = router;
