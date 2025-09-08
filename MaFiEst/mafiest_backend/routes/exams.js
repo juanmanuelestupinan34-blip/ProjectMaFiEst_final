@@ -3,7 +3,7 @@ const router = express.Router();
 const examController = require('../controllers/exams');
 const { tokenExtractor, userExtractor } = require('../utils/middleware');
 
-// ✅ Solo docentes pueden crear, actualizar y borrar exámenes
+// Solo docentes pueden crear, actualizar y borrar exámenes
 const isTeacher = (req, res, next) => {
   if (!req.user || req.user.role !== 'docente') {
     return res.status(403).json({ error: 'Acceso denegado: solo docentes' });
