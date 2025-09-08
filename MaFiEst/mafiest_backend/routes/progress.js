@@ -2,13 +2,16 @@ const express = require('express');
 const router = express.Router();
 const progressController = require('../controllers/progress');
 
-// Obtener el progreso de un usuario
-router.get('/:userId', progressController.getProgress);
+// Obtener progreso del usuario autenticado
+router.get('/', progressController.getProgress);
 
-// Crear o actualizar el progreso de un usuario
-router.post('/', progressController.createOrUpdateProgress);
+// Crear progreso
+router.post('/', progressController.createProgress);
 
-// Eliminar el progreso de un usuario
-router.delete('/:userId', progressController.deleteProgress);
+// Actualizar progreso
+router.put('/:id', progressController.updateProgress);
+
+// Eliminar progreso
+router.delete('/:id', progressController.deleteProgress);
 
 module.exports = router;
