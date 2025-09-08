@@ -1,7 +1,5 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../utils/db.js";
-import User from "./User.js";
-import Workshop from "./Workshop.js";
 
 const WorkshopSubmission = sequelize.define("WorkshopSubmission", {
   id: {
@@ -11,19 +9,11 @@ const WorkshopSubmission = sequelize.define("WorkshopSubmission", {
   },
   workshopId: {
     type: DataTypes.INTEGER,
-    allowNull: false,
-    references: {
-      model: "Workshops",
-      key: "id"
-    }
+    allowNull: false
   },
   studentId: {
     type: DataTypes.INTEGER,
-    allowNull: false,
-    references: {
-      model: "Users",
-      key: "id"
-    }
+    allowNull: false
   },
   answer: {
     type: DataTypes.TEXT,
@@ -45,9 +35,5 @@ const WorkshopSubmission = sequelize.define("WorkshopSubmission", {
   tableName: "WorkshopSubmissions",
   timestamps: false
 });
-
-// Relaciones
-WorkshopSubmission.belongsTo(User, { foreignKey: "studentId" });
-WorkshopSubmission.belongsTo(Workshop, { foreignKey: "workshopId" });
 
 export default WorkshopSubmission;
