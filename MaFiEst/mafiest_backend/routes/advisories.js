@@ -1,20 +1,20 @@
 const express = require('express');
 const router = express.Router();
-const AdvisoryController = require('../controllers/advisories');
+const advisoryController = require('../controllers/advisories');
 
-// Endpoint para crear una nueva asesoría
-router.post('/', AdvisoryController.createAdvisory);
+// Crear nueva asesoría
+router.post('/', advisoryController.createAdvisory);
 
-// Endpoint para obtener todas las asesorías
-router.get('/', AdvisoryController.getAllAdvisories);
+// Obtener todas las asesorías
+router.get('/', advisoryController.getAdvisories);
 
-// Endpoint para obtener una asesoría por ID
-router.get('/:id', AdvisoryController.getAdvisoryById);
+// Obtener asesoría por ID
+router.get('/:id', advisoryController.getAdvisoryById);
 
-// Endpoint para actualizar una asesoría por ID
-router.put('/:id', AdvisoryController.updateAdvisory);
+// Actualizar asesoría
+router.put('/:id', advisoryController.updateAdvisory);
 
-// Endpoint para eliminar una asesoría por ID
-router.delete('/:id', AdvisoryController.deleteAdvisory);
+// Eliminar asesoría
+router.delete('/:id', advisoryController.deleteAdvisory);
 
 module.exports = router;
