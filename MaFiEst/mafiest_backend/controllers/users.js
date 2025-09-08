@@ -1,69 +1,91 @@
-const { Group } = require("../models");
+const { User } = require("../models");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
-const groupController = {
-  // Crear un grupo
-  async createGroup(req, res) {
+const userController = {
+  // Crear un nuevo usuario
+  async createUser(req, res) {
+    const { name, email, password, role } = req.body;
+
     try {
-      const { name } = req.body;
-      const newGroup = await Group.create({ name });
-      res.status(201).json(newGroup);
+      const hashedPassword = await bcrypt.hash(password, 10);
+      const newUser = await User.create({
+        name,
+        email,
+        password: hashedPassword,
+        role,
+      });
+      res.status(201).json(newUser);
     } catch (error) {
-      res.status(500).json({ error: "Error creando el grupo" });
+      res.status(400).json({ error: error.message });
     }
   },
 
-  // Obtener todos los grupos
-  async getAllGroups(req, res) {
+  // Obtener todos los usuarios
+  async getAllUsers(req, res) {
     try {
-      const groups = await Group.findAll();
-      res.status(200).json(groups);
+      const users = await User.findAll();
+      res.status(200).json(users);
     } catch (error) {
-      res.status(500).json({ error: "Error obteniendo los grupos" });
+      res.status(500).json({ error: error.message });
     }
   },
 
-  // Obtener un grupo por ID
-  async getGroupById(req, res) {
+  // Obtener un usuario por ID
+  async getUserById(req, res) {
+    const { id } = req.params;
+
     try {
-      const group = await Group.findByPk(req.params.id);
-      if (!group) {
-        return res.status(404).json({ error: "Grupo no encontrado" });
+      const user = await User.findByPk(id);
+      if (!user) {
+        return res.status(404).json({ error: "Usuario no encontrado" });
       }
-      res.status(200).json(group);
+      res.status(200).json(user);
     } catch (error) {
-      res.status(500).json({ error: "Error obteniendo el grupo" });
+      res.status(500).json({ error: error.message });
     }
   },
 
-  // Actualizar un grupo
-  async updateGroup(req, res) {
+  // Actualizar un usuario
+  async updateUser(req, res) {
+    const { id } = req.params;
+    const { name, email, password, role } = req.body;
+
     try {
-      const { name } = req.body;
-      const group = await Group.findByPk(req.params.id);
-      if (!group) {
-        return res.status(404).json({ error: "Grupo no encontrado" });
+      const user = await User.findByPk(id);
+      if (!user) {
+        return res.status(404).json({ error: "Usuario no encontrado" });
       }
-      group.name = name;
-      await group.save();
-      res.status(200).json(group);
+
+      if (password) {
+        user.password = await bcrypt.hash(password, 10);
+      }
+      user.name = name || user.name;
+      user.email = email || user.email;
+      user.role = role || user.role;
+
+      await user.save();
+      res.status(200).json(user);
     } catch (error) {
-      res.status(500).json({ error: "Error actualizando el grupo" });
+      res.status(400).json({ error: error.message });
     }
   },
 
-  // Eliminar un grupo
-  async deleteGroup(req, res) {
+  // Eliminar un usuario
+  async deleteUser(req, res) {
+    const { id } = req.params;
+
     try {
-      const group = await Group.findByPk(req.params.id);
-      if (!group) {
-        return res.status(404).json({ error: "Grupo no encontrado" });
+      const user = await User.findByPk(id);
+      if (!user) {
+        return res.status(404).json({ error: "Usuario no encontrado" });
       }
-      await group.destroy();
+      await user.destroy();
       res.status(204).send();
     } catch (error) {
-      res.status(500).json({ error: "Error eliminando el grupo" });
+      res.status(500).json({ error: error.message });
     }
   },
 };
 
-module.exports = groupController;
+module.exports = userController;
