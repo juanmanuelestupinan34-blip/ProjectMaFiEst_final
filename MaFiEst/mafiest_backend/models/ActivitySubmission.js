@@ -1,13 +1,13 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../utils/db.js";
 
-const WorkshopSubmission = sequelize.define("WorkshopSubmission", {
+const ActivitySubmission = sequelize.define("ActivitySubmission", {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
     autoIncrement: true
   },
-  workshopId: {
+  activityId: {
     type: DataTypes.INTEGER,
     allowNull: false
   },
@@ -15,7 +15,7 @@ const WorkshopSubmission = sequelize.define("WorkshopSubmission", {
     type: DataTypes.INTEGER,
     allowNull: false
   },
-  answer: {
+  content: {
     type: DataTypes.TEXT,
     allowNull: true
   },
@@ -23,17 +23,13 @@ const WorkshopSubmission = sequelize.define("WorkshopSubmission", {
     type: DataTypes.STRING,
     allowNull: true
   },
-  grade: {
-    type: DataTypes.INTEGER,
-    allowNull: true  // NULL hasta que el docente califique
-  },
   submittedAt: {
     type: DataTypes.DATE,
     defaultValue: DataTypes.NOW
   }
 }, {
-  tableName: "WorkshopSubmissions",
-  timestamps: false
+  tableName: "ActivitySubmissions",
+  timestamps: true
 });
 
-export default WorkshopSubmission;
+export default ActivitySubmission;

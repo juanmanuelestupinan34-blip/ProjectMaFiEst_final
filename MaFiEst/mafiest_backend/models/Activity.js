@@ -1,7 +1,7 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../utils/db.js";
 
-const Exam = sequelize.define("Exam", {
+const Activity = sequelize.define("Activity", {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -15,8 +15,16 @@ const Exam = sequelize.define("Exam", {
     type: DataTypes.TEXT,
     allowNull: true
   },
+  type: {
+    type: DataTypes.ENUM('examen', 'taller'),
+    allowNull: false
+  },
+  deadline: {
+    type: DataTypes.DATE,
+    allowNull: false
+  },
   fileUrl: {
-    type: DataTypes.STRING, // Ruta del archivo (Drive o local)
+    type: DataTypes.STRING,
     allowNull: true
   },
   teacherId: {
@@ -26,14 +34,10 @@ const Exam = sequelize.define("Exam", {
   groupId: {
     type: DataTypes.INTEGER,
     allowNull: false
-  },
-  createdAt: {
-    type: DataTypes.DATE,
-    defaultValue: DataTypes.NOW
   }
 }, {
-  tableName: "Exams",
-  timestamps: false
+  tableName: "Activities",
+  timestamps: true
 });
 
-export default Exam;
+export default Activity;
