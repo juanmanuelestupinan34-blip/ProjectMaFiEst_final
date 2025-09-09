@@ -24,6 +24,10 @@ const User = sequelize.define('User', {
         type: DataTypes.ENUM('administrador', 'docente', 'estudiante', 'independiente'),
         allowNull: false,
     },
+    refreshToken: {
+        type: DataTypes.TEXT,
+        allowNull: true
+    },
 }, {
     timestamps: true,
 });
