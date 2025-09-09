@@ -21,16 +21,9 @@ const isStudent = (req, res, next) => {
   next();
 };
 
-const isIndependent = (req, res, next) => {
-  if (!req.user || req.user.role !== 'independiente') {
-    return res.status(403).json({ error: 'Acceso denegado: solo independientes' });
-  }
-  next();
-};
 
 module.exports = {
   isAdmin,
   isTeacher,
   isStudent,
-  isIndependent,
 };
