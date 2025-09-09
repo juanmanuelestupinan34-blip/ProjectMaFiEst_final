@@ -4,8 +4,8 @@ const { isTeacher } = require('../utils/roles');
 
 const router = express.Router();
 
-router.get("/", tokenExtractor, userExtractor, isTeacher, activityController.getActivities);
-router.get("/:id", tokenExtractor, userExtractor, isTeacher, activityController.getActivityById);
+router.get("/", activityController.getActivities);
+router.get("/:id", activityController.getActivityById);
 router.post("/", tokenExtractor, userExtractor, isTeacher, activityController.createActivity);
 router.put("/:id", tokenExtractor, userExtractor, isTeacher, activityController.updateActivity);
 router.delete("/:id", tokenExtractor, userExtractor, isTeacher, activityController.deleteActivity);
