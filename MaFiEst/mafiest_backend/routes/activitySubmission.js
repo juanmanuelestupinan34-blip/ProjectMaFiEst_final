@@ -1,12 +1,14 @@
 const express = require("express");
 const activitySubmissionController = require("../controllers/activitySubmissionController");
+const { isStudent } = require('../utils/roles');
+
 
 const router = express.Router();
 
-router.get("/", activitySubmissionController.getActivitySubmissions);
-router.get("/:id", activitySubmissionController.getActivitySubmissionById);
-router.post("/", activitySubmissionController.createActivitySubmission);
-router.put("/:id", activitySubmissionController.updateActivitySubmission);
-router.delete("/:id", activitySubmissionController.deleteActivitySubmission);
+router.get("/", tokenExtractor, userExtractor, isStudent, activitySubmissionController.getActivitySubmissions);
+router.get("/:id", tokenExtractor, userExtractor, isStudent, activitySubmissionController.getActivitySubmissionById);
+router.post("/", tokenExtractor, userExtractor, isStudent, activitySubmissionController.createActivitySubmission);
+router.put("/:id", tokenExtractor, userExtractor, isStudent, activitySubmissionController.updateActivitySubmission);
+router.delete("/:id", tokenExtractor, userExtractor, isStudent, activitySubmissionController.deleteActivitySubmission);
 
 module.exports = router;
