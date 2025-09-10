@@ -1,28 +1,31 @@
-const { DataTypes } = require('sequelize');
+const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../utils/db');
 
-const Advisory = sequelize.define('Advisory', {
-    id: {
-        type: DataTypes.INTEGER,
-        autoIncrement: true,
-        primaryKey: true,
+class Advisory extends Model {}
+
+Advisory.init({
+  id: {
+    type: DataTypes.INTEGER,
+    autoIncrement: true,
+    primaryKey: true,
+  },
+  userId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: {
+      model: 'Users',
+      key: 'id',
     },
-    userId: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        references: {
-            model: 'Users',
-            key: 'id',
-        },
-    },
-    message: {
-        type: DataTypes.TEXT,
-        allowNull: false,
-    },
+  },
+  message: {
+    type: DataTypes.TEXT,
+    allowNull: false,
+  },
 }, {
-    timestamps: true,
-    createdAt: 'createdAt',
-    updatedAt: 'updatedAt',
+  sequelize,
+  modelName: 'Advisory',
+  tableName: 'Advisories',
+  timestamps: true,
 });
 
 module.exports = Advisory;
