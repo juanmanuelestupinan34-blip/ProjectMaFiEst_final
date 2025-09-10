@@ -1,7 +1,9 @@
-const { DataTypes } = require("sequelize");
-const sequelize = require("../utils/db");
+const { Model, DataTypes } = require('sequelize');
+const sequelize = require('../utils/db');
 
-const UserAchievement = sequelize.define("UserAchievement", {
+class UserAchievement extends Model {}
+
+UserAchievement.init({
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -11,16 +13,16 @@ const UserAchievement = sequelize.define("UserAchievement", {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
-      model: "Users",
-      key: "id"
+      model: 'Users',
+      key: 'id'
     }
   },
   achievementId: {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
-      model: "Achievements",
-      key: "id"
+      model: 'Achievements',
+      key: 'id'
     }
   },
   dateEarned: {
@@ -28,7 +30,9 @@ const UserAchievement = sequelize.define("UserAchievement", {
     defaultValue: DataTypes.NOW
   }
 }, {
-  tableName: "UserAchievements",
+  sequelize,
+  modelName: 'UserAchievement',
+  tableName: 'UserAchievements',
   timestamps: false
 });
 
