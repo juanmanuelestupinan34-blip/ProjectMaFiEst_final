@@ -9,21 +9,21 @@ const Navbar = ({ userRole, onLogout }) => {
                 <Link to="/">MaFiEst</Link>
             </div>
             <ul className="navbar-links">
-                {userRole === 'admin' && (
+                {userRole === 'administrador' && (
                     <>
                         <li><Link to="/admin/dashboard">Dashboard</Link></li>
                         <li><Link to="/admin/manage-users">Manage Users</Link></li>
                         <li><Link to="/admin/manage-groups">Manage Groups</Link></li>
                     </>
                 )}
-                {userRole === 'teacher' && (
+                {userRole === 'docente' && (
                     <>
                         <li><Link to="/teacher/dashboard">Dashboard</Link></li>
-                        <li><Link to="/teacher/upload-exams">Upload Exams</Link></li>
-                        <li><Link to="/teacher/upload-workshops">Upload Workshops</Link></li>
+                        // <li><Link to="/teacher/upload-exams">Upload Exams</Link></li>
+                        // <li><Link to="/teacher/upload-workshops">Upload Workshops</Link></li>
                     </>
                 )}
-                {userRole === 'student' && (
+                {userRole === 'estudiante' && (
                     <>
                         <li><Link to="/student/dashboard">Dashboard</Link></li>
                         <li><Link to="/student/courses">Courses</Link></li>
@@ -31,7 +31,7 @@ const Navbar = ({ userRole, onLogout }) => {
                         <li><Link to="/student/achievements">Achievements</Link></li>
                     </>
                 )}
-                {userRole === 'independent' && (
+                {userRole === 'independiente' && (
                     <>
                         <li><Link to="/independent/dashboard">Dashboard</Link></li>
                         <li><Link to="/independent/courses">Courses</Link></li>
