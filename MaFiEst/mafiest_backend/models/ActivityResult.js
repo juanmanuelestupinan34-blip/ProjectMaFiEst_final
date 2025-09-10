@@ -1,7 +1,9 @@
-import { DataTypes } from "sequelize";
-import sequelize from "../utils/db.js";
+const { Model, DataTypes } = require('sequelize');
+const sequelize = require('../utils/db');
 
-const ActivityResult = sequelize.define("ActivityResult", {
+class ActivityResult extends Model {}
+
+ActivityResult.init({
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -28,8 +30,10 @@ const ActivityResult = sequelize.define("ActivityResult", {
     defaultValue: DataTypes.NOW
   }
 }, {
-  tableName: "ActivityResults",
+  sequelize,
+  modelName: 'ActivityResult',
+  tableName: 'ActivityResults',
   timestamps: true
 });
 
-export default ActivityResult;
+module.exports = ActivityResult;
