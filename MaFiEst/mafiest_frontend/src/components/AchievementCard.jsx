@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import '../../styles/components/achievement-card.css';
+import '../styles/components/achievement-card.css';
 
 const AchievementCard = ({ achievement }) => {
     return (

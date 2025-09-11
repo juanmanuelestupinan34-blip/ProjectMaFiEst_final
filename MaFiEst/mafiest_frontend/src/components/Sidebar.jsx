@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import '../../styles/components/sidebar.css';
+import '../styles/components/sidebar.css';
 
 const Sidebar = ({ role }) => {
     return (
