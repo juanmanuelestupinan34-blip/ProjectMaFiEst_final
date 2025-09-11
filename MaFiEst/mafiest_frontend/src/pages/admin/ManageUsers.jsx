@@ -11,11 +11,7 @@ const ManageUsers = () => {
         name: '',
         email: '',
         password: '',
-<<<<<<< HEAD
-        role: 'student'
-=======
         role: 'estudiante'
->>>>>>> 1b5ba35df93666deaf8afd824b90c062e9bafd59
     });
     const [message, setMessage] = useState('');
 
@@ -56,11 +52,7 @@ const ManageUsers = () => {
                 name: '',
                 email: '',
                 password: '',
-<<<<<<< HEAD
-                role: 'student'
-=======
                 role: 'estudiante'
->>>>>>> 1b5ba35df93666deaf8afd824b90c062e9bafd59
             });
         } catch (err) {
             setError(err.message);
@@ -79,11 +71,7 @@ const ManageUsers = () => {
                 <h2>Crear Nuevo Usuario</h2>
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
-<<<<<<< HEAD
-                        <label>Nombre:</label>
-=======
                         <label>Nombre</label>
->>>>>>> 1b5ba35df93666deaf8afd824b90c062e9bafd59
                         <input
                             type="text"
                             value={newUser.name}
@@ -93,11 +81,7 @@ const ManageUsers = () => {
                     </div>
 
                     <div className="form-group">
-<<<<<<< HEAD
-                        <label>Email:</label>
-=======
                         <label>Email</label>
->>>>>>> 1b5ba35df93666deaf8afd824b90c062e9bafd59
                         <input
                             type="email"
                             value={newUser.email}
@@ -107,11 +91,7 @@ const ManageUsers = () => {
                     </div>
 
                     <div className="form-group">
-<<<<<<< HEAD
-                        <label>Contraseña:</label>
-=======
                         <label>Contraseña</label>
->>>>>>> 1b5ba35df93666deaf8afd824b90c062e9bafd59
                         <input
                             type="password"
                             value={newUser.password}
@@ -121,22 +101,13 @@ const ManageUsers = () => {
                     </div>
 
                     <div className="form-group">
-<<<<<<< HEAD
-                        <label>Rol:</label>
-=======
                         <label>Rol</label>
->>>>>>> 1b5ba35df93666deaf8afd824b90c062e9bafd59
                         <select
                             value={newUser.role}
                             onChange={(e) => setNewUser({...newUser, role: e.target.value})}
                         >
-<<<<<<< HEAD
-                            <option value="student">Estudiante</option>
-                            <option value="teacher">Docente</option>
-=======
                             <option value="estudiante">Estudiante</option>
                             <option value="docente">Docente</option>
->>>>>>> 1b5ba35df93666deaf8afd824b90c062e9bafd59
                         </select>
                     </div>
 
