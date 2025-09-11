@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import AchievementCard from '../../components/AchievementCard';
-import '../../styles/pages/achievements.css';
+import '../styles/pages/achievements.css';
 
 const Achievements = () => {
     const [achievements, setAchievements] = useState([]);
