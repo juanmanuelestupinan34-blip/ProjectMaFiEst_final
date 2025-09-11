@@ -5,10 +5,9 @@ const Achievement = require('./Achievement');
 const UserAchievement = require('./UserAchievement');
 const Contact = require('./Contact');
 const Advisory = require('./Advisory');
-const Exam = require('./Exam');
-const ExamResult = require('./ExamResult');
-const Workshop = require('./Workshop');
-const WorkshopSubmission = require('./WorkshopSubmission');
+const Activity = require('./Activity');
+const ActivityResult = require('./ActivityResult');
+const ActivitySubmission = require('./ActivitySubmission');
 
 const models = {
     User,
@@ -18,10 +17,9 @@ const models = {
     UserAchievement,
     Contact,
     Advisory,
-    Exam,
-    ExamResult,
-    Workshop,
-    WorkshopSubmission
+    Activity,
+    ActivityResult,
+    ActivitySubmission
 };
 
 // =======================
@@ -29,50 +27,59 @@ const models = {
 // =======================
 
 // Logros
-User.hasMany(UserAchievement, { foreignKey: 'userId' });
-UserAchievement.belongsTo(User, { foreignKey: 'userId' });
+User.hasMany(UserAchievement, { foreignKey: 'usuarioId' });
+UserAchievement.belongsTo(User, { foreignKey: 'usuarioId' });
 
-Achievement.hasMany(UserAchievement, { foreignKey: 'achievementId' });
-UserAchievement.belongsTo(Achievement, { foreignKey: 'achievementId' });
+Achievement.hasMany(UserAchievement, { foreignKey: 'logroId' });
+UserAchievement.belongsTo(Achievement, { foreignKey: 'logroId' });
 
 // Grupos
-Group.hasMany(User, { foreignKey: 'groupId' });
-User.belongsTo(Group, { foreignKey: 'groupId' });
+Group.hasMany(User, { foreignKey: 'grupoId' });
+User.belongsTo(Group, { foreignKey: 'grupoId' });
+
+// Relaciones de Group
+Group.belongsToMany(User, {
+  through: 'GrupoEstudiantes',
+  as: 'estudiantes',
+  foreignKey: 'grupoId',
+  otherKey: 'estudianteId'
+});
+
+Group.belongsToMany(User, {
+  through: 'GrupoDocentes',
+  as: 'docentes',
+  foreignKey: 'grupoId',
+  otherKey: 'docenteId'
+});
 
 // Progreso
-User.hasMany(Progress, { foreignKey: 'userId' });
-Progress.belongsTo(User, { foreignKey: 'userId' });
+User.hasMany(Progress, { foreignKey: 'usuarioId' });
+Progress.belongsTo(User, { foreignKey: 'usuarioId' });
 
 // Contacto
-User.hasMany(Contact, { foreignKey: 'userId' });
-Contact.belongsTo(User, { foreignKey: 'userId' });
+User.hasMany(Contact, { foreignKey: 'usuarioId' });
+Contact.belongsTo(User, { foreignKey: 'usuarioId' });
 
 // Asesorías
-User.hasMany(Advisory, { foreignKey: 'userId' });
-Advisory.belongsTo(User, { foreignKey: 'userId' });
+User.hasMany(Advisory, { foreignKey: 'usuarioId' });
+Advisory.belongsTo(User, { foreignKey: 'usuarioId' });
 
-// Exámenes
-Exam.belongsTo(User, { foreignKey: 'teacherId' });
-Exam.belongsTo(Group, { foreignKey: 'groupId' });
-User.hasMany(Exam, { foreignKey: 'teacherId' });
-Group.hasMany(Exam, { foreignKey: 'groupId' });
+// Actividades
+Activity.belongsTo(User, { foreignKey: 'docenteId' });
+Activity.belongsTo(Group, { foreignKey: 'grupoId' });
+User.hasMany(Activity, { foreignKey: 'docenteId' });
+Group.hasMany(Activity, { foreignKey: 'grupoId' });
 
-// Resultados de exámenes
-ExamResult.belongsTo(User, { foreignKey: 'studentId' });
-ExamResult.belongsTo(Exam, { foreignKey: 'examId' });
-User.hasMany(ExamResult, { foreignKey: 'studentId' });
-Exam.hasMany(ExamResult, { foreignKey: 'examId' });
+// Resultados de actividades
+ActivityResult.belongsTo(User, { foreignKey: 'estudianteId' });
+ActivityResult.belongsTo(Activity, { foreignKey: 'actividadId' });
+User.hasMany(ActivityResult, { foreignKey: 'estudianteId' });
+Activity.hasMany(ActivityResult, { foreignKey: 'actividadId' });
 
-// Talleres
-Workshop.belongsTo(User, { foreignKey: 'teacherId' });
-Workshop.belongsTo(Group, { foreignKey: 'groupId' });
-User.hasMany(Workshop, { foreignKey: 'teacherId' });
-Group.hasMany(Workshop, { foreignKey: 'groupId' });
-
-// Entregas de talleres
-WorkshopSubmission.belongsTo(User, { foreignKey: 'studentId' });
-WorkshopSubmission.belongsTo(Workshop, { foreignKey: 'workshopId' });
-User.hasMany(WorkshopSubmission, { foreignKey: 'studentId' });
-Workshop.hasMany(WorkshopSubmission, { foreignKey: 'workshopId' });
+// Entregas de actividades
+ActivitySubmission.belongsTo(User, { foreignKey: 'estudianteId' });
+ActivitySubmission.belongsTo(Activity, { foreignKey: 'actividadId' });
+User.hasMany(ActivitySubmission, { foreignKey: 'estudianteId' });
+Activity.hasMany(ActivitySubmission, { foreignKey: 'actividadId' });
 
 module.exports = models;

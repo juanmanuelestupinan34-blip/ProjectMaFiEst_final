@@ -6,6 +6,8 @@ const ManageGroups = () => {
     const [groups, setGroups] = useState([]);
     const [groupName, setGroupName] = useState('');
     const [editingGroupId, setEditingGroupId] = useState(null);
+    const [selectedGroup, setSelectedGroup] = useState(null);
+    const [groupMembers, setGroupMembers] = useState({ students: [], teachers: [] });
 
     useEffect(() => {
         fetchGroups();
@@ -50,28 +52,71 @@ const ManageGroups = () => {
         }
     };
 
+    const fetchGroupMembers = async (groupId) => {
+        try {
+            const response = await axios.get(`/api/groups/${groupId}/members`);
+            setGroupMembers(response.data);
+            setSelectedGroup(groupId);
+        } catch (error) {
+            console.error('Error fetching group members:', error);
+        }
+    };
+
     return (
         <div>
-            <h1>Manage Groups</h1>
+            <h1>Gestionar Grupos</h1>
             <form onSubmit={handleAddGroup}>
                 <input
                     type="text"
                     value={groupName}
                     onChange={(e) => setGroupName(e.target.value)}
-                    placeholder="Group Name"
+                    placeholder="Nombre del Grupo"
                     required
                 />
-                <button type="submit">{editingGroupId ? 'Update Group' : 'Add Group'}</button>
+                <button type="submit">
+                    {editingGroupId ? 'Actualizar Grupo' : 'Añadir Grupo'}
+                </button>
             </form>
-            <ul>
+
+            <div className="groups-list">
                 {groups.map((group) => (
-                    <li key={group.id}>
-                        {group.name}
-                        <button onClick={() => handleEditGroup(group)}>Edit</button>
-                        <button onClick={() => handleDeleteGroup(group.id)}>Delete</button>
-                    </li>
+                    <div key={group.id} className="group-item">
+                        <h3>{group.name}</h3>
+                        <div className="group-actions">
+                            <button onClick={() => handleEditGroup(group)}>
+                                Editar
+                            </button>
+                            <button onClick={() => handleDeleteGroup(group.id)}>
+                                Eliminar
+                            </button>
+                            <button onClick={() => fetchGroupMembers(group.id)}>
+                                Ver Miembros
+                            </button>
+                        </div>
+
+                        {selectedGroup === group.id && (
+                            <div className="group-members">
+                                <div className="members-section">
+                                    <h4>Estudiantes:</h4>
+                                    <ul>
+                                        {groupMembers.students.map(student => (
+                                            <li key={student.id}>{student.name}</li>
+                                        ))}
+                                    </ul>
+                                </div>
+                                <div className="members-section">
+                                    <h4>Docentes:</h4>
+                                    <ul>
+                                        {groupMembers.teachers.map(teacher => (
+                                            <li key={teacher.id}>{teacher.name}</li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            </div>
+                        )}
+                    </div>
                 ))}
-            </ul>
+            </div>
         </div>
     );
 };

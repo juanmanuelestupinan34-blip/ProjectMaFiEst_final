@@ -4,11 +4,12 @@ const groupController = {
   // Crear un grupo
   async createGroup(req, res) {
     try {
-      const { name } = req.body;
-      const newGroup = await Group.create({ name });
-      res.status(201).json(newGroup);
+      const group = await Group.create({
+        name: req.body.name,
+      });
+      res.status(201).json(group);
     } catch (error) {
-      res.status(500).json({ error: "Error creando el grupo" });
+      res.status(500).json({ message: error.message });
     }
   },
 
@@ -16,9 +17,9 @@ const groupController = {
   async getAllGroups(req, res) {
     try {
       const groups = await Group.findAll();
-      res.status(200).json(groups);
+      res.json(groups);
     } catch (error) {
-      res.status(500).json({ error: "Error obteniendo los grupos" });
+      res.status(500).json({ message: error.message });
     }
   },
 
@@ -27,27 +28,25 @@ const groupController = {
     try {
       const group = await Group.findByPk(req.params.id);
       if (!group) {
-        return res.status(404).json({ error: "Grupo no encontrado" });
+        return res.status(404).json({ message: "Grupo no encontrado" });
       }
       res.status(200).json(group);
     } catch (error) {
-      res.status(500).json({ error: "Error obteniendo el grupo" });
+      res.status(500).json({ message: error.message });
     }
   },
 
   // Actualizar un grupo
   async updateGroup(req, res) {
     try {
-      const { name } = req.body;
       const group = await Group.findByPk(req.params.id);
       if (!group) {
-        return res.status(404).json({ error: "Grupo no encontrado" });
+        return res.status(404).json({ message: "Grupo no encontrado" });
       }
-      group.name = name;
-      await group.save();
-      res.status(200).json(group);
+      await group.update({ name: req.body.name });
+      res.json(group);
     } catch (error) {
-      res.status(500).json({ error: "Error actualizando el grupo" });
+      res.status(500).json({ message: error.message });
     }
   },
 
@@ -56,12 +55,12 @@ const groupController = {
     try {
       const group = await Group.findByPk(req.params.id);
       if (!group) {
-        return res.status(404).json({ error: "Grupo no encontrado" });
+        return res.status(404).json({ message: "Grupo no encontrado" });
       }
       await group.destroy();
-      res.status(204).send();
+      res.json({ message: "Grupo eliminado exitosamente" });
     } catch (error) {
-      res.status(500).json({ error: "Error eliminando el grupo" });
+      res.status(500).json({ message: error.message });
     }
   },
 };
