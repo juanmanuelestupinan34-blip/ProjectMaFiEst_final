@@ -6,63 +6,149 @@ const ManageUsers = () => {
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [newUser, setNewUser] = useState({
+        name: '',
+        email: '',
+        password: '',
+        role: 'student'
+    });
+    const [message, setMessage] = useState('');
 
     useEffect(() => {
-        const fetchUsers = async () => {
-            try {
-                const response = await axios.get('/api/users');
-                setUsers(response.data);
-            } catch (err) {
-                setError(err.message);
-            } finally {
-                setLoading(false);
-            }
-        };
-
         fetchUsers();
     }, []);
 
+    const fetchUsers = async () => {
+        try {
+            const response = await axios.get('/api/users');
+            setUsers(response.data);
+        } catch (err) {
+            setError(err.message);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     const handleDelete = async (userId) => {
-        if (window.confirm('Are you sure you want to delete this user?')) {
+        if (window.confirm('¿Estás seguro de que quieres eliminar este usuario?')) {
             try {
                 await axios.delete(`/api/users/${userId}`);
                 setUsers(users.filter(user => user.id !== userId));
+                setMessage('Usuario eliminado exitosamente');
             } catch (err) {
                 setError(err.message);
             }
         }
     };
 
-    if (loading) return <div>Loading...</div>;
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await axios.post('/api/users', newUser);
+            setUsers([...users, response.data]);
+            setMessage('Usuario creado exitosamente');
+            setNewUser({
+                name: '',
+                email: '',
+                password: '',
+                role: 'student'
+            });
+        } catch (err) {
+            setError(err.message);
+        }
+    };
+
+    if (loading) return <div>Cargando...</div>;
     if (error) return <div>Error: {error}</div>;
 
     return (
-        <div>
-            <h1>Manage Users</h1>
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Role</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {users.map(user => (
-                        <tr key={user.id}>
-                            <td>{user.id}</td>
-                            <td>{user.name}</td>
-                            <td>{user.email}</td>
-                            <td>{user.role}</td>
-                            <td>
-                                <button onClick={() => handleDelete(user.id)}>Delete</button>
-                            </td>
+        <div className="manage-users-container">
+            <h1>Gestión de Usuarios</h1>
+
+            {/* Formulario para crear nuevo usuario */}
+            <div className="create-user-section">
+                <h2>Crear Nuevo Usuario</h2>
+                <form onSubmit={handleSubmit}>
+                    <div className="form-group">
+                        <label>Nombre:</label>
+                        <input
+                            type="text"
+                            value={newUser.name}
+                            onChange={(e) => setNewUser({...newUser, name: e.target.value})}
+                            required
+                        />
+                    </div>
+
+                    <div className="form-group">
+                        <label>Email:</label>
+                        <input
+                            type="email"
+                            value={newUser.email}
+                            onChange={(e) => setNewUser({...newUser, email: e.target.value})}
+                            required
+                        />
+                    </div>
+
+                    <div className="form-group">
+                        <label>Contraseña:</label>
+                        <input
+                            type="password"
+                            value={newUser.password}
+                            onChange={(e) => setNewUser({...newUser, password: e.target.value})}
+                            required
+                        />
+                    </div>
+
+                    <div className="form-group">
+                        <label>Rol:</label>
+                        <select
+                            value={newUser.role}
+                            onChange={(e) => setNewUser({...newUser, role: e.target.value})}
+                        >
+                            <option value="student">Estudiante</option>
+                            <option value="teacher">Docente</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" className="create-button">Crear Usuario</button>
+                </form>
+            </div>
+
+            {message && <div className="message">{message}</div>}
+
+            {/* Tabla de usuarios existentes */}
+            <div className="users-list">
+                <h2>Usuarios Registrados</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Email</th>
+                            <th>Rol</th>
+                            <th>Acciones</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {users.map(user => (
+                            <tr key={user.id}>
+                                <td>{user.id}</td>
+                                <td>{user.name}</td>
+                                <td>{user.email}</td>
+                                <td>{user.role}</td>
+                                <td>
+                                    <button 
+                                        onClick={() => handleDelete(user.id)}
+                                        className="delete-button"
+                                    >
+                                        Eliminar
+                                    </button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
         </div>
     );
 };
