@@ -1,9 +1,8 @@
 const express = require('express');
 const cors = require('cors');
-const app = express();
-const db = require('./utils/db');
-const logger = require('./utils/logger');
 const middleware = require('./utils/middleware');
+
+// Rutas
 const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/users');
 const groupRoutes = require('./routes/groups');
@@ -12,12 +11,14 @@ const achievementRoutes = require('./routes/achievements');
 const contactRoutes = require('./routes/contacts');
 const advisoryRoutes = require('./routes/advisories');
 
-// Middleware
+const app = express();
+
+// Middleware global
 app.use(cors());
 app.use(express.json());
 app.use(middleware.tokenExtractor);
 
-// Routes
+// Rutas API
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/groups', groupRoutes);
@@ -26,21 +27,7 @@ app.use('/api/achievements', achievementRoutes);
 app.use('/api/contacts', contactRoutes);
 app.use('/api/advisories', advisoryRoutes);
 
-// Error handling middleware
+// Manejo de errores
 app.use(middleware.errorHandler);
 
-// Connect to the database and start the server
-const startServer = async () => {
-    try {
-        await db.authenticate();
-        logger.info('Database connection established successfully.');
-        const PORT = process.env.PORT || 3000;
-        app.listen(PORT, () => {
-            logger.info(`Server running on port ${PORT}`);
-        });
-    } catch (error) {
-        logger.error('Unable to connect to the database:', error);
-    }
-};
-
-startServer();
+module.exports = app;

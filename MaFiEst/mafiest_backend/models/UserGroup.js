@@ -1,7 +1,9 @@
-import { DataTypes } from "sequelize";
-import sequelize from "../utils/db.js";
+const { Model, DataTypes } = require('sequelize');
+const sequelize = require('../utils/db');
 
-const UserGroup = sequelize.define("UserGroup", {
+class UserGroup extends Model {}
+
+UserGroup.init({
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -16,8 +18,10 @@ const UserGroup = sequelize.define("UserGroup", {
     allowNull: false
   }
 }, {
-  tableName: "UserGroups",
-  timestamps: false  // esta tabla no necesita createdAt/updatedAt
+  sequelize,
+  modelName: 'UserGroup',
+  tableName: 'UserGroups',
+  timestamps: false
 });
 
-export default UserGroup;
+module.exports = UserGroup;

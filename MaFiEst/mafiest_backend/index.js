@@ -1,43 +1,30 @@
-const express = require('express');
-const app = express();
-const cors = require('cors');
 const db = require('./utils/db');
 const logger = require('./utils/logger');
-const middleware = require('./utils/middleware');
-const authRoutes = require('./routes/auth');
-const userRoutes = require('./routes/users');
-const groupRoutes = require('./routes/groups');
-const progressRoutes = require('./routes/progress');
-const achievementRoutes = require('./routes/achievements');
-const contactRoutes = require('./routes/contacts');
-const advisoryRoutes = require('./routes/advisories');
 require('dotenv').config();
 
-// Middleware
-app.use(cors());
-app.use(express.json());
-app.use(middleware.tokenExtractor);
+const app = require('./app');
 
-// Routes
-app.use('/api/auth', authRoutes);
-app.use('/api/users', userRoutes);
-app.use('/api/groups', groupRoutes);
-app.use('/api/progress', progressRoutes);
-app.use('/api/achievements', achievementRoutes);
-app.use('/api/contacts', contactRoutes);
-app.use('/api/advisories', advisoryRoutes);
-
-// Error handling middleware
-app.use(middleware.errorHandler);
-
-// Connect to the database and start the server
 const PORT = process.env.PORT || 3000;
-db.sync()
-  .then(() => {
+
+// Conexión a BD y arranque del servidor
+const startServer = async () => {
+  try {
+    await db.authenticate();
+    logger.info('✅ Database connection established successfully.');
+
+    // Solo sincronizar en desarrollo
+    if (process.env.NODE_ENV === 'development') {
+      await db.sync({ alter: true });
+      logger.info('🛠️ Database synced (development mode)');
+    }
+
     app.listen(PORT, () => {
-      logger.info(`Server running on port ${PORT}`);
+      logger.info(`🚀 Server running on port ${PORT}`);
     });
-  })
-  .catch(error => {
-    logger.error('Unable to connect to the database:', error);
-  });
+  } catch (error) {
+    logger.error('❌ Unable to connect to the database:', error);
+    process.exit(1); // detener el proceso si no conecta
+  }
+};
+
+startServer();

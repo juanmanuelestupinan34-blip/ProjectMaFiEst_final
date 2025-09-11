@@ -18,7 +18,7 @@ const authController = {
         name,
         email,
         password: hashedPassword,
-        role: "independent",
+        role: "independiente", // Rol por defecto para el registro 
       });
 
       res

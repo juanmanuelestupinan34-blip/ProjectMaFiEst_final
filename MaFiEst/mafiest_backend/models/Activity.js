@@ -1,7 +1,9 @@
-import { DataTypes } from "sequelize";
-import sequelize from "../utils/db.js";
+const { Model, DataTypes } = require('sequelize');
+const sequelize = require('../utils/db');
 
-const Activity = sequelize.define("Activity", {
+class Activity extends Model {}
+
+Activity.init({
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -36,8 +38,10 @@ const Activity = sequelize.define("Activity", {
     allowNull: false
   }
 }, {
-  tableName: "Activities",
+  sequelize,
+  modelName: 'Activity',
+  tableName: 'Activities',
   timestamps: true
 });
 
-export default Activity;
+module.exports = Activity;

@@ -11,7 +11,6 @@ const Dashboard = () => {
                 <Link to="/independent/courses" className="dashboard-link">Ver Cursos</Link>
                 <Link to="/independent/progress" className="dashboard-link">Ver Progreso</Link>
                 <Link to="/independent/achievements" className="dashboard-link">Mis Logros</Link>
-                <Link to="/independent/config" className="dashboard-link">Configuración</Link>
             </div>
         </div>
     );
