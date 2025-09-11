@@ -51,7 +51,7 @@ const ManageUsers = () => {
                 name: '',
                 email: '',
                 password: '',
-                role: 'estudiante 
+                role: 'estudiante'
             });
         } catch (err) {
             setError(err.message);
